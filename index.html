@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#eef2e9" />
+  <title>Blue Summer Rain</title>
+
+  <style>
+    @font-face {
+      font-family: "GmarketSans";
+      src: url("./GmarketSansTTFLight.ttf") format("truetype");
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --bg: #eef2e9;
+      --paper: #f7f9f4;
+      --sage-dark: #4f5951;
+      --tea: #9aa88f;
+      --line: rgba(75, 91, 78, 0.20);
+      --line-strong: rgba(75, 91, 78, 0.34);
+      --shadow: rgba(45, 60, 49, 0.12);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--sage-dark);
+      font-family: "GmarketSans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 300;
+      letter-spacing: -0.025em;
+      background:
+        radial-gradient(circle at 10% 8%, rgba(195, 210, 181, 0.45), transparent 30%),
+        radial-gradient(circle at 92% 78%, rgba(161, 178, 164, 0.18), transparent 31%),
+        var(--bg);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.12;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.34) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.28) 1px, transparent 1px);
+      background-size: 58px 58px;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 78%);
+      mask-image: linear-gradient(to bottom, #000 0%, transparent 78%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, calc(100% - 44px));
+      margin: 0 auto;
+      padding: 46px 0 132px;
+    }
+
+    .masthead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--line-strong);
+    }
+
+    .title {
+      margin: 0;
+      font-size: clamp(44px, 6.8vw, 82px);
+      font-weight: 300;
+      line-height: 0.98;
+      letter-spacing: -0.065em;
+    }
+
+    .symbols {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex: 0 0 auto;
+    }
+
+    .symbol {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: rgba(255,255,255,0.28);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .symbol svg {
+      width: 21px;
+      height: 21px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.35;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .gallery {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .gallery-row {
+      display: grid;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    /* 새 일러스트(왼쪽) + 민님 일러스트(오른쪽) */
+    .gallery-row.hero {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.55fr);
+    }
+
+    /* 비 내리는 두 장 */
+    .gallery-row.middle {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    /* 기존 맨 위 두 장을 맨 아래로 */
+    .gallery-row.bottom {
+      grid-template-columns: minmax(0, 1.42fr) minmax(0, 1fr);
+    }
+
+    .tile {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      min-width: 0;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: 0 8px 24px rgba(51, 68, 55, 0.025);
+      transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+    }
+
+    .tile::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(to bottom, rgba(235,242,229,0), rgba(60,80,65,0.035));
+    }
+
+    .tile:hover,
+    .tile:focus-visible {
+      transform: translateY(-3px);
+      border-color: rgba(77, 97, 80, 0.54);
+      box-shadow: 0 18px 42px var(--shadow);
+      outline: none;
+    }
+
+    .tile img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      transition: transform .48s cubic-bezier(.2,.7,.2,1);
+    }
+
+    .tile:hover img,
+    .tile:focus-visible img { transform: scale(1.012); }
+
+    /* top row */
+    .romance-tile,
+    .personnel-tile {
+      height: clamp(330px, 36vw, 445px);
+    }
+
+    .romance-tile img { object-position: center center; }
+    .personnel-tile img { object-position: center center; }
+
+    /* middle row */
+    .timeline-tile,
+    .commission-tile {
+      height: clamp(430px, 47vw, 580px);
+    }
+
+    .timeline-tile img { object-position: center 42%; }
+    .commission-tile img { object-position: center 46%; }
+
+    /* bottom row */
+    .fragments-tile,
+    .tendency-tile {
+      height: clamp(310px, 34vw, 430px);
+    }
+
+    .fragments-tile img { object-position: center 52%; }
+    .tendency-tile img { object-position: center center; }
+
+    .music-player {
+      position: fixed;
+      z-index: 50;
+      right: 22px;
+      bottom: 20px;
+      width: min(430px, calc(100% - 44px));
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 9px 11px 9px 16px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      background: rgba(245, 248, 242, 0.90);
+      box-shadow: 0 14px 36px rgba(54, 68, 58, 0.12);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .music-left {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .music-icon {
+      flex: 0 0 auto;
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      color: var(--tea);
+      font-size: 16px;
+    }
+
+    .music-title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 11px;
+    }
+
+    .music-controls {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .music-btn {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: var(--sage-dark);
+      background: rgba(255,255,255,0.48);
+      cursor: pointer;
+    }
+
+    .music-btn.small {
+      width: 28px;
+      height: 28px;
+      border-color: transparent;
+      background: transparent;
+      font-size: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .page { width: min(100% - 30px, 760px); }
+      .gallery-row.hero { grid-template-columns: 0.95fr 1.45fr; }
+      .romance-tile, .personnel-tile { height: clamp(280px, 43vw, 370px); }
+      .timeline-tile, .commission-tile { height: clamp(360px, 58vw, 500px); }
+      .fragments-tile, .tendency-tile { height: clamp(260px, 42vw, 360px); }
+    }
+
+    @media (max-width: 680px) {
+      .page {
+        width: min(100% - 24px, 620px);
+        padding-top: 28px;
+        padding-bottom: 118px;
+      }
+
+      .masthead {
+        align-items: flex-end;
+        gap: 14px;
+        padding-bottom: 16px;
+      }
+
+      .title { font-size: clamp(36px, 12vw, 56px); }
+      .symbols { gap: 5px; }
+      .symbol { width: 34px; height: 34px; }
+      .symbol svg { width: 17px; height: 17px; }
+
+      .gallery { margin-top: 16px; gap: 12px; }
+      .gallery-row { grid-template-columns: 1fr !important; gap: 12px; }
+      .tile { border-radius: 17px; }
+
+      .romance-tile { height: auto; aspect-ratio: 1 / 1; }
+      .personnel-tile { height: auto; aspect-ratio: 2.23 / 1; }
+      .timeline-tile, .commission-tile { height: auto; aspect-ratio: 2 / 3; }
+      .fragments-tile { height: auto; aspect-ratio: 8 / 5; }
+      .tendency-tile { height: auto; aspect-ratio: 1 / 1; }
+
+      .music-player {
+        left: 12px;
+        right: 12px;
+        bottom: 12px;
+        width: auto;
+        min-height: 56px;
+        padding: 8px 9px 8px 13px;
+      }
+
+      .music-icon { display: none; }
+      .music-title { font-size: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="masthead">
+      <h1 class="title">Blue Summer Rain</h1>
+      <div class="symbols" aria-label="pair symbols">
+        <span class="symbol" title="transparent umbrella" aria-label="transparent umbrella">
+          <svg viewBox="0 0 24 24"><path d="M4 11.5a8 8 0 0 1 16 0H4Z"/><path d="M12 3.5v14.2c0 1.8.9 2.8 2.2 2.8 1.1 0 1.8-.7 1.8-1.7"/><path d="M7 11.5c.5-2.1 2.2-3.7 5-3.7s4.5 1.6 5 3.7" opacity=".55"/></svg>
+        </span>
+        <span class="symbol" title="summer shower" aria-label="summer shower">
+          <svg viewBox="0 0 24 24"><path d="M6.5 8.5c.6-2.4 2.4-3.8 4.7-3.8 2.2 0 4 1.2 4.8 3.2.4-.2.9-.3 1.4-.3 1.8 0 3.1 1.2 3.1 2.8 0 1.7-1.4 2.9-3.3 2.9H6.7c-1.9 0-3.2-1.2-3.2-2.8 0-1.5 1.2-2.6 3-2.6"/><path d="M7 16.2 6.2 18M12 16.2 11 18.5M17 16.2 16.1 18.3"/></svg>
+        </span>
+        <span class="symbol" title="NGC 4038 × NGC 4039" aria-label="NGC 4038 × NGC 4039">
+          <svg viewBox="0 0 24 24"><path d="M10.8 7.2c2.8-2 6.7-1.8 8.6.4 2 2.2 1.2 5.6-1.8 7.5-2.9 1.9-6.8 1.5-8.5-.7-1.7-2.1-.9-5.3 1.7-7.2Z"/><path d="M13.2 9.5c-2.6-2.1-6.2-2.4-8.3-.8-2.2 1.7-2.2 4.8.1 6.9 2.4 2.1 6.1 2.3 8.3.6"/></svg>
+        </span>
+      </div>
+    </header>
+
+    <section class="gallery" aria-label="archive navigation">
+      <!-- 1행: 새 일러스트 + 기존 민님 일러스트 -->
+      <div class="gallery-row hero">
+        <a class="tile romance-tile" href="./romance/index.html" aria-label="그때, 네가 나를 보았다">
+          <img src="./IMG_1226.jpeg" alt="파란 배경 아래 하늘을 올려다보는 지서우" />
+        </a>
+
+        <a class="tile personnel-tile" href="./fragments/index.html" aria-label="글 아카이브">
+          <img src="./fragments.png" alt="이어폰을 나눠 끼고 음악을 듣는 두 사람" />
+        </a>
+      </div>
+
+      <!-- 2행: 기존 타임라인 / 커미션 -->
+      <div class="gallery-row middle">
+        <a class="tile timeline-tile" href="./personnel/index.html" aria-label="인물 소개">
+          <img src="./timeline.jpg" alt="비 내리는 밤 함께 있는 두 사람" />
+        </a>
+
+        <a class="tile commission-tile" href="./timeline/index.html" aria-label="타임라인">
+          <img src="./commission.jpg" alt="비 내리는 날 함께 달리는 두 사람" />
+        </a>
+      </div>
+
+      <!-- 3행: 기존 맨 위 두 장을 맨 아래로, 역할 변경 -->
+      <div class="gallery-row bottom">
+        <a class="tile fragments-tile" href="./commission/index.html" aria-label="일러스트 커미션 아카이브">
+          <img src="./IMG_9270.png" alt="바다에서 함께 달리는 두 사람" />
+        </a>
+
+        <a class="tile tendency-tile" href="./tendency/index.html" aria-label="계정 성향글">
+          <img src="./personnel.png" alt="가까이 붙어 있는 두 사람의 얼굴" />
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <div class="music-player" id="music-player">
+    <div class="music-left">
+      <span class="music-icon">♫</span>
+      <span class="music-title" id="music-title">Dive with You - Seori</span>
+    </div>
+    <div class="music-controls">
+      <button aria-label="previous track" class="music-btn small" onclick="prevTrack()">‹</button>
+      <button aria-label="play or pause" class="music-btn" id="music-btn" onclick="toggleMusic()">▶</button>
+      <button aria-label="next track" class="music-btn small" onclick="nextTrack()">›</button>
+    </div>
+    <audio id="bgm" preload="metadata"></audio>
+  </div>
+
+  <script src="./common.js"></script>
+</body>
+</html>
