@@ -311,7 +311,13 @@ if (!IS_IFRAME) {
   }
 
   function routeUrl(route) {
-    return new URL(`${route}/index.html`, siteBase);
+    const url = new URL(`${route}/index.html`, siteBase);
+
+    // GitHub Pages / 브라우저 iframe 캐시 때문에 수정 전 페이지가 다시 보이는 현상 방지.
+    // 하위 페이지를 열 때마다 새 주소로 인식하게 해서 최신 HTML/CSS를 강제로 불러옵니다.
+    url.searchParams.set("_v", Date.now().toString());
+
+    return url;
   }
 
   function showRoute(route, pushHistory = true) {
