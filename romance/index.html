@@ -1,7 +1,7 @@
 <html lang="ko"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#eef2e9">
+  <meta name="theme-color" content="#1b231f">
   <title>그때, 네가 나를 보았다. | Blue Summer Rain</title>
 
   <style>
@@ -14,13 +14,13 @@
     }
 
     :root {
-      --bg: #eef2e9;
-      --paper: rgba(248,250,246,.72);
-      --text: #4f5951;
-      --muted: #7f8a80;
-      --line: rgba(75,91,78,.22);
-      --line-strong: rgba(75,91,78,.34);
-      --tea: #9aa88f;
+      --bg: #1b231f;
+      --bg-deep: #121815;
+      --text: #edf2ed;
+      --muted: #a8b3aa;
+      --line: rgba(226,235,228,.14);
+      --line-strong: rgba(226,235,228,.24);
+      --tea: #b8c5ba;
     }
 
     * { box-sizing: border-box; }
@@ -33,9 +33,9 @@
       font-weight: 300;
       letter-spacing: -0.025em;
       background:
-        radial-gradient(circle at 14% 8%, rgba(195,210,181,.44), transparent 30%),
-        radial-gradient(circle at 88% 82%, rgba(161,178,164,.16), transparent 32%),
-        var(--bg);
+        radial-gradient(circle at 18% 12%, rgba(87,105,94,.24), transparent 34%),
+        radial-gradient(circle at 82% 74%, rgba(49,67,58,.22), transparent 36%),
+        linear-gradient(180deg, #202923 0%, var(--bg-deep) 100%);
     }
 
     a { color: inherit; text-decoration: none; }
@@ -74,10 +74,10 @@
       width: min(620px, 100%);
       margin: 30px auto 0;
       overflow: hidden;
-      border: 1px solid var(--line-strong);
-      border-radius: 24px;
-      background: #f7f9f4;
-      box-shadow: 0 18px 44px rgba(45,60,49,.08);
+      border: 1px solid rgba(233,241,235,.16);
+      border-radius: 22px;
+      background: #111714;
+      box-shadow: 0 22px 54px rgba(0,0,0,.28);
     }
 
     .visual img {
@@ -87,17 +87,17 @@
     }
 
     .writing {
-      margin-top: 24px;
-      padding: clamp(24px, 5vw, 46px);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      background: var(--paper);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      box-shadow: 0 14px 38px rgba(45,60,49,.045);
+      width: min(620px, 100%);
+      margin: 34px auto 0;
+      padding: 0 2px;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
     }
 
     .story {
+      color: var(--text);
       font-size: clamp(15px, 2.1vw, 18px);
       line-height: 2.05;
       word-break: keep-all;
@@ -128,8 +128,9 @@
       padding: 9px 11px 9px 16px;
       border: 1px solid var(--line-strong);
       border-radius: 999px;
-      background: rgba(245,248,242,.92);
-      box-shadow: 0 14px 36px rgba(54,68,58,.12);
+      color: var(--text);
+      background: rgba(24,32,28,.90);
+      box-shadow: 0 14px 36px rgba(0,0,0,.28);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
     }
@@ -138,7 +139,7 @@
     .music-icon { width: 26px; height: 26px; display: grid; place-items: center; color: var(--tea); }
     .music-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; }
     .music-controls { display: flex; align-items: center; gap: 4px; }
-    .music-btn { width: 34px; height: 34px; display: grid; place-items: center; padding: 0; border: 1px solid var(--line); border-radius: 50%; color: var(--text); background: rgba(255,255,255,.48); cursor: pointer; }
+    .music-btn { width: 34px; height: 34px; display: grid; place-items: center; padding: 0; border: 1px solid var(--line); border-radius: 50%; color: var(--text); background: rgba(255,255,255,.06); cursor: pointer; }
     .music-btn.small { width: 28px; height: 28px; border-color: transparent; background: transparent; font-size: 18px; }
 
     @media (max-width: 680px) {
@@ -146,7 +147,7 @@
       .topbar { align-items: flex-end; }
       .page-title { font-size: 18px; }
       .visual { margin-top: 20px; border-radius: 18px; }
-      .writing { margin-top: 14px; border-radius: 18px; padding: 22px 18px; }
+      .writing { width: 100%; margin-top: 24px; padding: 0 2px; }
       .story { font-size: 14px; line-height: 2; }
       .music-player { left: 12px; right: 12px; bottom: 12px; width: auto; min-height: 56px; padding: 8px 9px 8px 13px; }
       .music-icon { display: none; }
