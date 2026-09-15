@@ -240,7 +240,7 @@ if (!IS_IFRAME) {
     "tendency",
     "personnel",
     "timeline",
-    "commission",
+    "stills",
     "fragments"
   ]);
 
@@ -265,7 +265,7 @@ if (!IS_IFRAME) {
 
     const relative = url.pathname.slice(siteBase.pathname.length);
     const match = relative.match(
-      /^(romance|tendency|personnel|timeline|commission|fragments)(?:\/(?:index\.html)?)?$/
+      /^(romance|tendency|personnel|timeline|stills|fragments)(?:\/(?:index\.html)?)?$/
     );
 
     return match ? match[1] : null;
