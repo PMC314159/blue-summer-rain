@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#25252a" />
-  <title>Stills | Blue Summer Rain</title>
+  <title>Blue Summer Rain</title>
 
   <style>
     @font-face {
       font-family: "GmarketSans";
-      src: url("../GmarketSansTTFLight.ttf") format("truetype");
+      src: url("./GmarketSansTTFLight.ttf") format("truetype");
       font-weight: 300;
       font-style: normal;
       font-display: swap;
@@ -17,13 +17,13 @@
 
     :root {
       --bg: #25252a;
-      --panel: #2b2b31;
-      --text: #f1f1f2;
-      --muted: #aaaab0;
-      --line: rgba(255,255,255,.12);
-      --line-strong: rgba(255,255,255,.18);
-      --accent: #d8e3d4;
-      --shadow: rgba(0,0,0,.28);
+      --paper: #f7f9f4;
+      --sage-dark: #4f5951;
+      --tea: #9aa88f;
+      --line: rgba(75, 91, 78, 0.20);
+      --line-strong: rgba(75, 91, 78, 0.34);
+      --shadow: rgba(45, 60, 49, 0.12);
+      --radius: 22px;
     }
 
     * { box-sizing: border-box; }
@@ -33,7 +33,7 @@
     body {
       margin: 0;
       min-height: 100vh;
-      color: var(--text);
+      color: var(--sage-dark);
       font-family: "GmarketSans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       font-weight: 300;
       letter-spacing: -0.025em;
@@ -43,617 +43,362 @@
         var(--bg);
     }
 
-    body.modal-open { overflow: hidden; }
-
-    a {
-      color: inherit;
-      text-decoration: none;
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.08;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.34) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.28) 1px, transparent 1px);
+      background-size: 58px 58px;
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 78%);
+      mask-image: linear-gradient(to bottom, #000 0%, transparent 78%);
     }
 
+    a { color: inherit; text-decoration: none; }
     button { font: inherit; }
 
     .page {
-      width: min(1120px, calc(100% - 40px));
-      margin: 0 auto;
-      padding: 40px 0 132px;
-    }
-
-    .topbar {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 34px;
-    }
-
-    .back {
-      display: inline-flex;
-      align-items: center;
-      color: var(--muted);
-      font-size: 12px;
-      letter-spacing: .08em;
-      transition: opacity .2s ease, transform .2s ease;
-    }
-
-    .back:hover {
-      opacity: .72;
-      transform: translateX(-2px);
-    }
-
-    .page-title {
-      margin: 0;
-      color: var(--muted);
-      font-size: 12px;
-      letter-spacing: .30em;
-      text-transform: uppercase;
-    }
-
-    .still-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 24px;
-    }
-
-    .still-card {
-      min-width: 0;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: 26px;
-      background: rgba(26,26,30,.54);
-      box-shadow: 0 18px 46px var(--shadow);
-      cursor: pointer;
-      transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
-    }
-
-    .still-card:hover,
-    .still-card:focus-visible {
-      transform: translateY(-3px);
-      border-color: rgba(216,227,212,.30);
-      box-shadow: 0 23px 54px rgba(0,0,0,.34);
-      outline: none;
-    }
-
-    .thumb {
       position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 10;
-      overflow: hidden;
-      background: #17171a;
+      z-index: 1;
+      width: min(1180px, calc(100% - 44px));
+      margin: 0 auto;
+      padding: 46px 0 132px;
     }
 
-    .thumb img {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-      transition: transform .45s cubic-bezier(.2,.7,.2,1);
-    }
-
-    .still-card:hover .thumb img,
-    .still-card:focus-visible .thumb img {
-      transform: scale(1.015);
-    }
-
-    /* 썸네일별 보이는 위치 */
-    .still-card[data-still="1"] .thumb img { object-position: center 48%; }
-    .still-card[data-still="2"] .thumb img { object-position: center 50%; }
-    .still-card[data-still="3"] .thumb img { object-position: center 50%; }
-    .still-card[data-still="4"] .thumb img { object-position: center 48%; }
-    .still-card[data-still="5"] .thumb img { object-position: center 46%; }
-    .still-card[data-still="6"] .thumb img { object-position: center 52%; }
-    .still-card[data-still="7"] .thumb img { object-position: center 50%; }
-
-    .card-info {
-      padding: 21px 24px 23px;
-      border-top: 1px solid rgba(255,255,255,.07);
-    }
-
-    .still-name {
-      margin: 0;
-      color: #eeeeef;
-      font-size: 16px;
-      letter-spacing: .035em;
-    }
-
-    .multi-mark {
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 11px;
-      letter-spacing: .10em;
-    }
-
-    /* =========================
-       FULLSCREEN VIEWER
-       ========================= */
-
-    .viewer {
-      position: fixed;
-      inset: 0;
-      z-index: 1000;
-      display: none;
+    .masthead {
+      display: flex;
       align-items: center;
-      justify-content: center;
-      padding: 70px 88px 54px;
-      background: rgba(4,4,6,.94);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
+      justify-content: space-between;
+      gap: 28px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid rgba(216,227,212,.22);
     }
 
-    .viewer.open { display: flex; }
+    .title {
+      margin: 0;
+      color: #d8e3d4;
+      font-size: clamp(44px, 6.8vw, 82px);
+      font-weight: 300;
+      line-height: 0.98;
+      letter-spacing: -0.065em;
+    }
 
-    .viewer::before {
+    .symbols {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex: 0 0 auto;
+    }
+
+    .symbol {
+      width: 42px;
+      color: #d8e3d4;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(216,227,212,.22);
+      border-radius: 50%;
+      background: rgba(216,227,212,.05);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .symbol svg {
+      width: 21px;
+      height: 21px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.35;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .gallery {
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .gallery-row {
+      display: grid;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    /* 새 일러스트(왼쪽) + 민님 일러스트(오른쪽) */
+    .gallery-row.hero {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.55fr);
+    }
+
+    /* 비 내리는 두 장 */
+    .gallery-row.middle {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    /* 기존 맨 위 두 장을 맨 아래로 */
+    .gallery-row.bottom {
+      grid-template-columns: minmax(0, 1.42fr) minmax(0, 1fr);
+    }
+
+    .tile {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      min-width: 0;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background: var(--paper);
+      box-shadow: 0 8px 24px rgba(51, 68, 55, 0.025);
+      transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+    }
+
+    .tile::after {
       content: "";
       position: absolute;
       inset: 0;
       pointer-events: none;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(55,65,135,.10), transparent 32%),
-        radial-gradient(circle at 82% 76%, rgba(100,120,100,.07), transparent 30%);
+      background: linear-gradient(to bottom, rgba(235,242,229,0), rgba(60,80,65,0.035));
     }
 
-    .viewer-stage {
-      position: relative;
-      z-index: 1;
+    .tile:hover,
+    .tile:focus-visible {
+      transform: translateY(-3px);
+      border-color: rgba(77, 97, 80, 0.54);
+      box-shadow: 0 18px 42px var(--shadow);
+      outline: none;
+    }
+
+    .tile img {
       width: 100%;
       height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .viewer-image {
-      max-width: 100%;
-      max-height: 100%;
       display: block;
-      object-fit: contain;
-      user-select: none;
-      -webkit-user-drag: none;
-      box-shadow: 0 20px 70px rgba(0,0,0,.35);
+      object-fit: cover;
+      transition: transform .48s cubic-bezier(.2,.7,.2,1);
     }
 
-    .viewer-close {
-      position: absolute;
-      z-index: 3;
-      top: 24px;
-      right: 30px;
-      border: 0;
-      padding: 8px 10px;
-      color: #dcdce2;
-      background: transparent;
-      font-size: 13px;
-      letter-spacing: .15em;
-      cursor: pointer;
+    .tile:hover img,
+    .tile:focus-visible img { transform: scale(1.012); }
+
+    /* top row */
+    .romance-tile,
+    .personnel-tile {
+      height: clamp(330px, 36vw, 445px);
     }
 
-    .viewer-close:hover { opacity: .68; }
+    .romance-tile img { object-position: center center; }
+    .personnel-tile img { object-position: center center; }
 
-    .nav-btn {
-      position: absolute;
-      z-index: 3;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 48px;
-      height: 48px;
-      display: none;
-      place-items: center;
-      border: 1px solid rgba(255,255,255,.18);
-      border-radius: 50%;
-      color: #f2f2f3;
-      background: rgba(20,20,24,.56);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      font-size: 28px;
-      line-height: 1;
-      cursor: pointer;
+    /* middle row */
+    .timeline-tile,
+    .commission-tile {
+      height: clamp(430px, 47vw, 580px);
     }
 
-    .nav-btn.show { display: grid; }
+    .timeline-tile img { object-position: center 42%; }
+    .commission-tile img { object-position: center 46%; }
 
-    .nav-btn:hover {
-      background: rgba(255,255,255,.10);
+    /* bottom row */
+    .fragments-tile,
+    .tendency-tile {
+      height: clamp(310px, 34vw, 430px);
     }
 
-    .nav-prev { left: 24px; }
-    .nav-next { right: 24px; }
+    .fragments-tile img { object-position: center 52%; }
+    .tendency-tile img { object-position: center center; }
 
-    .viewer-caption {
-      position: absolute;
-      z-index: 3;
-      left: 28px;
-      bottom: 24px;
-      color: rgba(235,235,239,.76);
-      font-size: 12px;
-      letter-spacing: .08em;
-    }
-
-    .viewer-counter {
-      position: absolute;
-      z-index: 3;
-      right: 30px;
-      bottom: 24px;
-      color: rgba(235,235,239,.58);
-      font-size: 11px;
-      letter-spacing: .12em;
-    }
-
-    /* shared music player */
     .music-player {
       position: fixed;
       z-index: 50;
-      left: 50%;
-      bottom: 18px;
-      transform: translateX(-50%);
-      width: min(720px, calc(100% - 32px));
-      min-height: 60px;
+      right: 22px;
+      bottom: 20px;
+      width: min(430px, calc(100% - 44px));
+      min-height: 58px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      padding: 9px 13px 9px 18px;
+      gap: 14px;
+      padding: 9px 11px 9px 16px;
       border: 1px solid var(--line-strong);
       border-radius: 999px;
-      color: var(--text);
-      background: rgba(34,34,39,.90);
-      box-shadow: 0 14px 38px rgba(0,0,0,.26);
+      background: rgba(245, 248, 242, 0.90);
+      box-shadow: 0 14px 36px rgba(54, 68, 58, 0.12);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
     }
 
-    .music-left,
-    .music-controls {
+    .music-left {
+      min-width: 0;
       display: flex;
       align-items: center;
-    }
-
-    .music-left {
-      gap: 11px;
-      min-width: 0;
+      gap: 9px;
     }
 
     .music-icon {
-      color: var(--accent);
-      font-size: 18px;
       flex: 0 0 auto;
+      width: 26px;
+      height: 26px;
+      display: grid;
+      place-items: center;
+      color: var(--tea);
+      font-size: 16px;
     }
 
     .music-title {
       overflow: hidden;
-      white-space: nowrap;
       text-overflow: ellipsis;
-      color: #d9d9dc;
-      font-size: 12px;
+      white-space: nowrap;
+      font-size: 11px;
     }
 
     .music-controls {
-      gap: 4px;
       flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .music-btn {
-      width: 39px;
-      height: 39px;
+      width: 34px;
+      height: 34px;
       display: grid;
       place-items: center;
       padding: 0;
-      border: 1px solid var(--line-strong);
+      border: 1px solid var(--line);
       border-radius: 50%;
-      color: var(--text);
-      background: rgba(255,255,255,.045);
+      color: var(--sage-dark);
+      background: rgba(255,255,255,0.48);
       cursor: pointer;
     }
 
     .music-btn.small {
-      width: 32px;
-      height: 32px;
+      width: 28px;
+      height: 28px;
       border-color: transparent;
       background: transparent;
       font-size: 18px;
     }
 
-    @media (max-width: 720px) {
+    @media (max-width: 900px) {
+      .page { width: min(100% - 30px, 760px); }
+      .gallery-row.hero { grid-template-columns: 0.95fr 1.45fr; }
+      .romance-tile, .personnel-tile { height: clamp(280px, 43vw, 370px); }
+      .timeline-tile, .commission-tile { height: clamp(360px, 58vw, 500px); }
+      .fragments-tile, .tendency-tile { height: clamp(260px, 42vw, 360px); }
+    }
+
+    @media (max-width: 680px) {
       .page {
-        width: min(100% - 24px, 1120px);
-        padding-top: 24px;
-        padding-bottom: 116px;
+        width: min(100% - 24px, 620px);
+        padding-top: 28px;
+        padding-bottom: 118px;
       }
 
-      .topbar {
-        margin-bottom: 22px;
+      .masthead {
+        align-items: flex-end;
+        gap: 14px;
+        padding-bottom: 16px;
       }
 
-      .still-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
+      .title { font-size: clamp(36px, 12vw, 56px); }
+      .symbols { gap: 5px; }
+      .symbol { width: 34px; height: 34px; }
+      .symbol svg { width: 17px; height: 17px; }
 
-      .still-card {
-        border-radius: 20px;
-      }
+      .gallery { margin-top: 16px; gap: 12px; }
+      .gallery-row { grid-template-columns: 1fr !important; gap: 12px; }
+      .tile { border-radius: 17px; }
 
-      .card-info {
-        padding: 17px 19px 19px;
-      }
-
-      .still-name {
-        font-size: 14px;
-      }
-
-      .viewer {
-        padding: 64px 16px 62px;
-      }
-
-      .viewer-close {
-        top: 16px;
-        right: 14px;
-      }
-
-      .nav-btn {
-        width: 42px;
-        height: 42px;
-        top: auto;
-        bottom: 14px;
-        transform: none;
-        font-size: 24px;
-      }
-
-      .nav-prev { left: 18px; }
-      .nav-next { right: 18px; }
-
-      .viewer-caption {
-        left: 50%;
-        bottom: 26px;
-        transform: translateX(-50%);
-        white-space: nowrap;
-      }
-
-      .viewer-counter {
-        right: 50%;
-        bottom: 11px;
-        transform: translateX(50%);
-      }
+      .romance-tile { height: auto; aspect-ratio: 1 / 1; }
+      .personnel-tile { height: auto; aspect-ratio: 2.23 / 1; }
+      .timeline-tile, .commission-tile { height: auto; aspect-ratio: 2 / 3; }
+      .fragments-tile { height: auto; aspect-ratio: 8 / 5; }
+      .tendency-tile { height: auto; aspect-ratio: 1 / 1; }
 
       .music-player {
+        left: 12px;
+        right: 12px;
         bottom: 12px;
+        width: auto;
         min-height: 56px;
-        padding-left: 14px;
+        padding: 8px 9px 8px 13px;
       }
 
-      .music-title {
-        max-width: 160px;
-        font-size: 10px;
-      }
+      .music-icon { display: none; }
+      .music-title { font-size: 10px; }
     }
   </style>
 </head>
-
 <body>
   <main class="page">
-    <div class="topbar">
-      <a class="back" href="../index.html" aria-label="메인으로 돌아가기">← BACK TO MAIN</a>
-      <p class="page-title">STILLS</p>
-    </div>
+    <header class="masthead">
+      <h1 class="title">Blue Summer Rain</h1>
+      <div class="symbols" aria-label="pair symbols">
+        <span class="symbol" title="transparent umbrella" aria-label="transparent umbrella">
+          <svg viewBox="0 0 24 24"><path d="M4 11.5a8 8 0 0 1 16 0H4Z"/><path d="M12 3.5v14.2c0 1.8.9 2.8 2.2 2.8 1.1 0 1.8-.7 1.8-1.7"/><path d="M7 11.5c.5-2.1 2.2-3.7 5-3.7s4.5 1.6 5 3.7" opacity=".55"/></svg>
+        </span>
+        <span class="symbol" title="summer shower" aria-label="summer shower">
+          <svg viewBox="0 0 24 24"><path d="M6.5 8.5c.6-2.4 2.4-3.8 4.7-3.8 2.2 0 4 1.2 4.8 3.2.4-.2.9-.3 1.4-.3 1.8 0 3.1 1.2 3.1 2.8 0 1.7-1.4 2.9-3.3 2.9H6.7c-1.9 0-3.2-1.2-3.2-2.8 0-1.5 1.2-2.6 3-2.6"/><path d="M7 16.2 6.2 18M12 16.2 11 18.5M17 16.2 16.1 18.3"/></svg>
+        </span>
+        <span class="symbol" title="NGC 4038 × NGC 4039" aria-label="NGC 4038 × NGC 4039">
+          <svg viewBox="0 0 24 24"><path d="M10.8 7.2c2.8-2 6.7-1.8 8.6.4 2 2.2 1.2 5.6-1.8 7.5-2.9 1.9-6.8 1.5-8.5-.7-1.7-2.1-.9-5.3 1.7-7.2Z"/><path d="M13.2 9.5c-2.6-2.1-6.2-2.4-8.3-.8-2.2 1.7-2.2 4.8.1 6.9 2.4 2.1 6.1 2.3 8.3.6"/></svg>
+        </span>
+      </div>
+    </header>
 
-    <section class="still-grid" aria-label="스틸 일러스트 아카이브">
+    <section class="gallery" aria-label="archive navigation">
+      <!-- 1행: 새 일러스트 + 기존 민님 일러스트 -->
+      <div class="gallery-row hero">
+        <a class="tile romance-tile" href="./romance/index.html" aria-label="그때, 네가 나를 보았다">
+          <img src="./IMG_1226.jpeg" alt="파란 배경 아래 하늘을 올려다보는 지서우" />
+        </a>
 
-      <article class="still-card" tabindex="0" data-still="1"
-        data-images='["./IMG_1226(1).jpeg"]'
-        data-title="Still 001">
-        <div class="thumb">
-          <img src="./IMG_1226(1).jpeg" alt="Still 001 썸네일" />
-        </div>
-        <div class="card-info">
-          <p class="still-name">Still 001</p>
-        </div>
-      </article>
+        <a class="tile personnel-tile" href="./tendency/index.html" aria-label="계정 성향글">
+          <img src="./fragments.png" alt="이어폰을 나눠 끼고 음악을 듣는 두 사람" />
+        </a>
+      </div>
 
-      <article class="still-card" tabindex="0" data-still="2"
-        data-images='["./무제9_20240430103704.jpeg"]'
-        data-title="Still 002">
-        <div class="thumb">
-          <img src="./무제9_20240430103704.jpeg" alt="Still 002 썸네일" />
-        </div>
-        <div class="card-info">
-          <p class="still-name">Still 002</p>
-        </div>
-      </article>
+      <!-- 2행: 기존 타임라인 / 커미션 -->
+      <div class="gallery-row middle">
+        <a class="tile timeline-tile" href="./personnel/index.html" aria-label="인물 소개">
+          <img src="./timeline.jpg" alt="비 내리는 밤 함께 있는 두 사람" />
+        </a>
 
-      <!-- 세 번째 + 네 번째 일러스트를 하나의 Still로 묶음 -->
-      <article class="still-card" tabindex="0" data-still="3"
-        data-images='["./IMG_4932.jpeg","./IMG_6917.jpeg"]'
-        data-title="Still 003">
-        <div class="thumb">
-          <img src="./IMG_4932.jpeg" alt="Still 003 썸네일" />
-        </div>
-        <div class="card-info">
-          <p class="still-name">Still 003</p>
-          <p class="multi-mark">2 IMAGES</p>
-        </div>
-      </article>
+        <a class="tile commission-tile" href="./timeline/index.html" aria-label="타임라인">
+          <img src="./commission.jpg" alt="비 내리는 날 함께 달리는 두 사람" />
+        </a>
+      </div>
 
-      <article class="still-card" tabindex="0" data-still="4"
-        data-images='["./IMG_6919.jpeg"]'
-        data-title="Still 004">
-        <div class="thumb">
-          <img src="./IMG_6919.jpeg" alt="Still 004 썸네일" />
-        </div>
-        <div class="card-info">
-          <p class="still-name">Still 004</p>
-        </div>
-      </article>
+      <!-- 3행: 기존 맨 위 두 장을 맨 아래로, 역할 변경 -->
+      <div class="gallery-row bottom">
+        <a class="tile fragments-tile" href="./stills/index.html" aria-label="스틸 아카이브">
+          <img src="./IMG_9270.png" alt="바다에서 함께 달리는 두 사람" />
+        </a>
 
-      <article class="still-card" tabindex="0" data-still="5"
-        data-images='["./IMG_8489.jpeg"]'
-        data-title="Still 005">
-        <div class="thumb">
-          <img src="./IMG_8489.jpeg" alt="Still 005 썸네일" />
-        </div>
-        <div class="card-info">
-          <p class="still-name">Still 005</p>
-        </div>
-      </article>
-
-      <article class="still-card" tabindex="0" data-still="6"
-        data-images='["./IMG_4539.jpeg"]'
-        data-title="Still 006">
-        <div class="thumb">
-          <img src="./IMG_4539.jpeg" alt="Still 006 썸네일" />
-        </div>
-        <div class="card-info">
-          <p class="still-name">Still 006</p>
-        </div>
-      </article>
-
-      <article class="still-card" tabindex="0" data-still="7"
-        data-images='["./IMG_8530.jpeg"]'
-        data-title="Still 007">
-        <div class="thumb">
-          <img src="./IMG_8530.jpeg" alt="Still 007 썸네일" />
-        </div>
-        <div class="card-info">
-          <p class="still-name">Still 007</p>
-        </div>
-      </article>
-
+        <a class="tile tendency-tile" href="./fragments/index.html" aria-label="글 아카이브">
+          <img src="./personnel.png" alt="가까이 붙어 있는 두 사람의 얼굴" />
+        </a>
+      </div>
     </section>
   </main>
-
-  <div class="viewer" id="viewer" aria-hidden="true">
-    <button class="viewer-close" id="viewer-close" type="button" aria-label="닫기">CLOSE</button>
-
-    <button class="nav-btn nav-prev" id="viewer-prev" type="button" aria-label="이전 이미지">‹</button>
-    <button class="nav-btn nav-next" id="viewer-next" type="button" aria-label="다음 이미지">›</button>
-
-    <div class="viewer-stage" id="viewer-stage">
-      <img class="viewer-image" id="viewer-image" alt="" />
-    </div>
-
-    <div class="viewer-caption" id="viewer-caption"></div>
-    <div class="viewer-counter" id="viewer-counter"></div>
-  </div>
 
   <div class="music-player" id="music-player">
     <div class="music-left">
       <span class="music-icon">♫</span>
       <span class="music-title" id="music-title">Dive with You - Seori</span>
     </div>
-
     <div class="music-controls">
       <button aria-label="previous track" class="music-btn small" onclick="prevTrack()">‹</button>
       <button aria-label="play or pause" class="music-btn" id="music-btn" onclick="toggleMusic()">▶</button>
       <button aria-label="next track" class="music-btn small" onclick="nextTrack()">›</button>
     </div>
-
     <audio id="bgm" preload="metadata"></audio>
   </div>
 
-  <script>
-    (() => {
-      const viewer = document.getElementById("viewer");
-      const viewerImage = document.getElementById("viewer-image");
-      const viewerCaption = document.getElementById("viewer-caption");
-      const viewerCounter = document.getElementById("viewer-counter");
-      const closeBtn = document.getElementById("viewer-close");
-      const prevBtn = document.getElementById("viewer-prev");
-      const nextBtn = document.getElementById("viewer-next");
-      const stage = document.getElementById("viewer-stage");
-
-      let currentImages = [];
-      let currentIndex = 0;
-      let currentTitle = "";
-      let touchStartX = 0;
-
-      function renderViewer() {
-        if (!currentImages.length) return;
-
-        viewerImage.src = currentImages[currentIndex];
-        viewerImage.alt = currentTitle + " 전체 이미지";
-        viewerCaption.textContent = currentTitle;
-
-        const multiple = currentImages.length > 1;
-        prevBtn.classList.toggle("show", multiple);
-        nextBtn.classList.toggle("show", multiple);
-
-        viewerCounter.textContent = multiple
-          ? `${currentIndex + 1} / ${currentImages.length}`
-          : "";
-      }
-
-      function openViewer(card) {
-        try {
-          currentImages = JSON.parse(card.dataset.images || "[]");
-        } catch (_) {
-          currentImages = [];
-        }
-
-        if (!currentImages.length) return;
-
-        currentTitle = card.dataset.title || "Still";
-        currentIndex = 0;
-
-        renderViewer();
-        viewer.classList.add("open");
-        viewer.setAttribute("aria-hidden", "false");
-        document.body.classList.add("modal-open");
-      }
-
-      function closeViewer() {
-        viewer.classList.remove("open");
-        viewer.setAttribute("aria-hidden", "true");
-        document.body.classList.remove("modal-open");
-        viewerImage.removeAttribute("src");
-      }
-
-      function move(direction) {
-        if (currentImages.length <= 1) return;
-        currentIndex = (currentIndex + direction + currentImages.length) % currentImages.length;
-        renderViewer();
-      }
-
-      document.querySelectorAll(".still-card").forEach((card) => {
-        card.addEventListener("click", () => openViewer(card));
-
-        card.addEventListener("keydown", (event) => {
-          if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            openViewer(card);
-          }
-        });
-      });
-
-      closeBtn.addEventListener("click", closeViewer);
-      prevBtn.addEventListener("click", () => move(-1));
-      nextBtn.addEventListener("click", () => move(1));
-
-      viewer.addEventListener("click", (event) => {
-        if (event.target === viewer || event.target === stage) {
-          closeViewer();
-        }
-      });
-
-      window.addEventListener("keydown", (event) => {
-        if (!viewer.classList.contains("open")) return;
-
-        if (event.key === "Escape") closeViewer();
-        if (event.key === "ArrowLeft") move(-1);
-        if (event.key === "ArrowRight") move(1);
-      });
-
-      stage.addEventListener("touchstart", (event) => {
-        touchStartX = event.changedTouches[0].clientX;
-      }, { passive: true });
-
-      stage.addEventListener("touchend", (event) => {
-        if (currentImages.length <= 1) return;
-
-        const endX = event.changedTouches[0].clientX;
-        const diff = endX - touchStartX;
-
-        if (Math.abs(diff) < 50) return;
-        move(diff > 0 ? -1 : 1);
-      }, { passive: true });
-    })();
-  </script>
-
-  <script src="../common.js"></script>
+  <script src="./common.js"></script>
 </body>
 </html>
