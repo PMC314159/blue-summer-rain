@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#25252a" />
+  <title>Tendency | Blue Summer Rain</title>
+
+  <style>
+    @font-face {
+      font-family: "GmarketSans";
+      src: url("../GmarketSansTTFLight.ttf") format("truetype");
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --bg: #25252a;
+      --paper: rgba(246, 252, 243, 0.72);
+      --banner: #a9c9ad;
+      --text: #78937d;
+      --text-strong: #67836d;
+      --line: rgba(125, 158, 132, 0.18);
+      --line-strong: rgba(125, 158, 132, 0.28);
+      --shadow: rgba(87, 117, 94, 0.08);
+      --radius: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: "GmarketSans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 300;
+      letter-spacing: -0.025em;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(159,180,225,.08), transparent 25%),
+        radial-gradient(circle at 88% 82%, rgba(191,223,194,.06), transparent 28%),
+        var(--bg);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .page {
+      width: min(860px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 42px 0 132px;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 18px 4px;
+      color: rgba(91, 122, 98, 0.72);
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+
+    .back:hover {
+      opacity: .72;
+      transform: translateX(-2px);
+    }
+
+    .profile-card,
+    .text-card {
+      border: 1px solid var(--line);
+      box-shadow: 0 10px 34px var(--shadow);
+      background: var(--paper);
+      overflow: hidden;
+    }
+
+    .profile-card {
+      position: relative;
+      min-height: 360px;
+      border-radius: var(--radius);
+    }
+
+    .profile-banner {
+      height: 128px;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,0)),
+        var(--banner);
+    }
+
+    .profile-avatar {
+      position: absolute;
+      top: 68px;
+      left: 46px;
+      width: 112px;
+      height: 112px;
+      border-radius: 50%;
+      padding: 4px;
+      background: rgba(241, 249, 238, .95);
+      box-shadow: 0 4px 14px rgba(73, 104, 80, .08);
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    .profile-meta {
+      position: absolute;
+      left: 46px;
+      bottom: 42px;
+    }
+
+    .rain-icon {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 29px;
+      line-height: 1;
+      filter: saturate(.85);
+    }
+
+    .profile-title {
+      margin: 0;
+      color: rgba(118, 149, 123, .56);
+      font-size: clamp(22px, 4vw, 31px);
+      font-weight: 300;
+      letter-spacing: -0.04em;
+    }
+
+    .text-card {
+      margin-top: 24px;
+      padding: 40px 42px;
+      border-radius: var(--radius);
+    }
+
+    .text-card p {
+      margin: 0;
+      color: var(--text-strong);
+      font-size: clamp(16px, 2.2vw, 21px);
+      line-height: 1.82;
+      word-break: keep-all;
+    }
+
+    .text-card p + p {
+      margin-top: 2px;
+    }
+
+    /* shared music player */
+    .music-player {
+      position: fixed;
+      z-index: 50;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      width: min(720px, calc(100% - 32px));
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 14px 10px 20px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      color: var(--text-strong);
+      background: rgba(245, 251, 242, .86);
+      box-shadow: 0 12px 34px rgba(83, 113, 90, .10);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .music-left,
+    .music-controls {
+      display: flex;
+      align-items: center;
+    }
+
+    .music-left {
+      gap: 13px;
+      min-width: 0;
+    }
+
+    .music-icon {
+      color: #93a98f;
+      font-size: 21px;
+      flex: 0 0 auto;
+    }
+
+    .music-title {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 14px;
+    }
+
+    .music-controls {
+      gap: 4px;
+      flex: 0 0 auto;
+    }
+
+    .music-btn {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line-strong);
+      border-radius: 50%;
+      color: var(--text-strong);
+      background: rgba(255,255,255,.48);
+      cursor: pointer;
+    }
+
+    .music-btn.small {
+      width: 34px;
+      height: 34px;
+      border-color: transparent;
+      background: transparent;
+      font-size: 19px;
+    }
+
+    .music-btn:hover {
+      background: rgba(255,255,255,.72);
+    }
+
+    @media (max-width: 640px) {
+      .page {
+        width: min(100% - 24px, 860px);
+        padding-top: 22px;
+      }
+
+      .profile-card {
+        min-height: 300px;
+      }
+
+      .profile-banner {
+        height: 104px;
+      }
+
+      .profile-avatar {
+        top: 56px;
+        left: 28px;
+        width: 92px;
+        height: 92px;
+      }
+
+      .profile-meta {
+        left: 28px;
+        bottom: 32px;
+      }
+
+      .text-card {
+        margin-top: 16px;
+        padding: 28px 24px;
+      }
+
+      .text-card p {
+        line-height: 1.76;
+      }
+
+      .music-player {
+        min-height: 58px;
+        padding-left: 15px;
+      }
+
+      .music-title {
+        max-width: 160px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <a class="back" href="../" aria-label="메인으로 돌아가기">← HOME</a>
+
+    <section class="profile-card" aria-label="계정 성향 프로필">
+      <div class="profile-banner"></div>
+
+      <div class="profile-avatar">
+        <img src="./profile.jpeg" alt="성향글 프로필 이미지" />
+      </div>
+
+      <div class="profile-meta">
+        <span class="rain-icon" aria-hidden="true">🌧️</span>
+        <h1 class="profile-title">여름비, 파랑</h1>
+      </div>
+    </section>
+
+    <section class="text-card" aria-label="계정 성향 안내">
+      <p>'가비지타임' 성준수 드림계. 백업 위주로 굴러갑니다.</p>
+      <p>극온리로, 겹드는 보이는 족족 뮤트합니다. 악의 없습니다.</p>
+      <p>1T1D합니다.</p>
+      <p>비팔 알림 꺼두었습니다.</p>
+      <p>드림캐를 드림주의 남친, 남편으로 지칭할 때가 많습니다.</p>
+      <p>드림주를 드림캐보다 더 애정하며 유사먹고 싶어합니다.</p>
+      <p>드림 서사는 모두 자체적으로 창작 후 타로로 살을 붙였으며, 누구에게도 영향 받지 않았습니다.</p>
+      <p>이와 관련해 컨택 받지 않습니다.</p>
+    </section>
+  </main>
+
+  <div class="music-player" id="music-player">
+    <div class="music-left">
+      <span class="music-icon">♫</span>
+      <span class="music-title" id="music-title">Dive with You - Seori</span>
+    </div>
+
+    <div class="music-controls">
+      <button aria-label="previous track" class="music-btn small" onclick="prevTrack()">‹</button>
+      <button aria-label="play or pause" class="music-btn" id="music-btn" onclick="toggleMusic()">▶</button>
+      <button aria-label="next track" class="music-btn small" onclick="nextTrack()">›</button>
+    </div>
+
+    <audio id="bgm" preload="metadata"></audio>
+  </div>
+
+  <script src="../common.js"></script>
+</body>
+</html>
