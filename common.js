@@ -326,7 +326,17 @@ if (!IS_IFRAME) {
     ensureFrame();
 
     activeRoute = route;
-    contentFrame.src = routeUrl(route).href;
+
+    // iframe의 src를 직접 바꾸면 브라우저 히스토리에
+    // "iframe 이동" 기록이 하나 더 생겨 뒤로가기를 두 번 눌러야 할 수 있음.
+    // location.replace()를 사용해 iframe 내부 기록을 새로 추가하지 않도록 함.
+    const targetUrl = routeUrl(route).href;
+    try {
+      contentFrame.contentWindow.location.replace(targetUrl);
+    } catch (_) {
+      contentFrame.src = targetUrl;
+    }
+
     frameLayer.style.display = "block";
 
     previousBodyOverflow = document.body.style.overflow;
@@ -346,7 +356,9 @@ if (!IS_IFRAME) {
 
     activeRoute = null;
     frameLayer.style.display = "none";
-    contentFrame.src = "about:blank";
+
+    // about:blank로 다시 이동시키지 않음.
+    // 이것도 iframe 히스토리를 하나 더 만들 수 있어 뒤로가기 기록이 꼬일 수 있음.
     document.body.style.overflow = previousBodyOverflow;
 
     if (pushHistory) {
