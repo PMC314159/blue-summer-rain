@@ -271,8 +271,8 @@ if (!IS_IFRAME) {
     return match ? match[1] : null;
   }
 
-  function ensureFrame() {
-    if (frameLayer && contentFrame) return;
+  function ensureFrameLayer() {
+    if (frameLayer) return;
 
     frameLayer = document.createElement("div");
     frameLayer.id = "bsr-page-layer";
@@ -281,15 +281,34 @@ if (!IS_IFRAME) {
       "inset:0",
       "z-index:40",
       "display:none",
-      "background:#eef2e9",
+      "background:#25252a",
       "overflow:hidden"
     ].join(";");
 
-    contentFrame = document.createElement("iframe");
-    contentFrame.id = "bsr-content-frame";
-    contentFrame.title = "Blue Summer Rain content";
-    contentFrame.setAttribute("loading", "eager");
-    contentFrame.style.cssText = [
+    // 음악 플레이어보다 아래, 메인 화면보다는 위.
+    if (musicPlayer) {
+      musicPlayer.before(frameLayer);
+      musicPlayer.style.zIndex = "100";
+    } else {
+      document.body.appendChild(frameLayer);
+    }
+  }
+
+  function createContentFrame(route) {
+    ensureFrameLayer();
+
+    // 기존 iframe을 재사용하면 그 iframe의 이동 기록이 브라우저 전체
+    // 세션 히스토리에 섞일 수 있으므로, 페이지를 열 때마다 새로 만든다.
+    if (contentFrame) {
+      contentFrame.remove();
+      contentFrame = null;
+    }
+
+    const frame = document.createElement("iframe");
+    frame.id = "bsr-content-frame";
+    frame.title = "Blue Summer Rain content";
+    frame.setAttribute("loading", "eager");
+    frame.style.cssText = [
       "display:block",
       "width:100%",
       "height:100%",
@@ -299,15 +318,12 @@ if (!IS_IFRAME) {
       "background:transparent"
     ].join(";");
 
-    frameLayer.appendChild(contentFrame);
+    // DOM에 넣기 전에 src를 지정한다.
+    // 이미 붙어 있는 iframe의 src를 바꾸는 방식보다 히스토리 중복이 덜 생긴다.
+    frame.src = routeUrl(route).href;
 
-    // 음악 플레이어보다 아래, 메인 화면보다는 위.
-    if (musicPlayer) {
-      musicPlayer.before(frameLayer);
-      musicPlayer.style.zIndex = "100";
-    } else {
-      document.body.appendChild(frameLayer);
-    }
+    frameLayer.appendChild(frame);
+    contentFrame = frame;
   }
 
   function routeUrl(route) {
@@ -323,20 +339,8 @@ if (!IS_IFRAME) {
   function showRoute(route, pushHistory = true) {
     if (!ROUTES.has(route)) return;
 
-    ensureFrame();
-
     activeRoute = route;
-
-    // iframe의 src를 직접 바꾸면 브라우저 히스토리에
-    // "iframe 이동" 기록이 하나 더 생겨 뒤로가기를 두 번 눌러야 할 수 있음.
-    // location.replace()를 사용해 iframe 내부 기록을 새로 추가하지 않도록 함.
-    const targetUrl = routeUrl(route).href;
-    try {
-      contentFrame.contentWindow.location.replace(targetUrl);
-    } catch (_) {
-      contentFrame.src = targetUrl;
-    }
-
+    createContentFrame(route);
     frameLayer.style.display = "block";
 
     previousBodyOverflow = document.body.style.overflow;
@@ -357,8 +361,11 @@ if (!IS_IFRAME) {
     activeRoute = null;
     frameLayer.style.display = "none";
 
-    // about:blank로 다시 이동시키지 않음.
-    // 이것도 iframe 히스토리를 하나 더 만들 수 있어 뒤로가기 기록이 꼬일 수 있음.
+    if (contentFrame) {
+      contentFrame.remove();
+      contentFrame = null;
+    }
+
     document.body.style.overflow = previousBodyOverflow;
 
     if (pushHistory) {
