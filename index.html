@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#eef2e9" />
+  <meta name="theme-color" content="#25252a" />
   <title>Blue Summer Rain</title>
 
   <style>
@@ -16,7 +16,7 @@
     }
 
     :root {
-      --bg: #eef2e9;
+      --bg: #25252a;
       --paper: #f7f9f4;
       --sage-dark: #4f5951;
       --tea: #9aa88f;
@@ -38,8 +38,8 @@
       font-weight: 300;
       letter-spacing: -0.025em;
       background:
-        radial-gradient(circle at 10% 8%, rgba(195, 210, 181, 0.45), transparent 30%),
-        radial-gradient(circle at 92% 78%, rgba(161, 178, 164, 0.18), transparent 31%),
+        radial-gradient(circle at 12% 8%, rgba(159,180,225,.08), transparent 25%),
+        radial-gradient(circle at 88% 82%, rgba(191,223,194,.06), transparent 28%),
         var(--bg);
     }
 
@@ -49,7 +49,7 @@
       inset: 0;
       z-index: 0;
       pointer-events: none;
-      opacity: 0.12;
+      opacity: 0.08;
       background-image:
         linear-gradient(rgba(255,255,255,0.34) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255,255,255,0.28) 1px, transparent 1px);
@@ -75,11 +75,12 @@
       justify-content: space-between;
       gap: 28px;
       padding-bottom: 22px;
-      border-bottom: 1px solid var(--line-strong);
+      border-bottom: 1px solid rgba(216,227,212,.22);
     }
 
     .title {
       margin: 0;
+      color: #d8e3d4;
       font-size: clamp(44px, 6.8vw, 82px);
       font-weight: 300;
       line-height: 0.98;
@@ -95,12 +96,13 @@
 
     .symbol {
       width: 42px;
+      color: #d8e3d4;
       height: 42px;
       display: grid;
       place-items: center;
-      border: 1px solid var(--line);
+      border: 1px solid rgba(216,227,212,.22);
       border-radius: 50%;
-      background: rgba(255,255,255,0.28);
+      background: rgba(216,227,212,.05);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
     }
