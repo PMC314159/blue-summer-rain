@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#25252a" />
+  <title>Timeline | Blue Summer Rain</title>
+
+  <style>
+    @font-face {
+      font-family: "GmarketSans";
+      src: url("../GmarketSansTTFLight.ttf") format("truetype");
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --bg: #25252a;
+      --panel: #29292f;
+      --text: #f1f1f2;
+      --muted: #a9a9ae;
+      --muted-2: #85858c;
+      --line: rgba(255,255,255,.12);
+      --line-strong: rgba(255,255,255,.18);
+      --blue: #bed6f4;
+      --green: #c7e7c9;
+      --cream: #eadbbd;
+      --lavender: #c8c4eb;
+      --shadow: rgba(0,0,0,.20);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: "GmarketSans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 300;
+      letter-spacing: -0.025em;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(159,180,225,.08), transparent 25%),
+        radial-gradient(circle at 88% 82%, rgba(191,223,194,.06), transparent 28%),
+        var(--bg);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button { font: inherit; }
+
+    .page {
+      width: min(980px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 40px 0 132px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .08em;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+
+    .back:hover {
+      opacity: .72;
+      transform: translateX(-2px);
+    }
+
+    .page-title {
+      margin: 0;
+      color: var(--muted-2);
+      font-size: 12px;
+      letter-spacing: .30em;
+      text-transform: uppercase;
+    }
+
+    .timeline {
+      position: relative;
+      margin-top: 22px;
+      padding-left: 54px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      top: 3px;
+      bottom: 0;
+      left: 16px;
+      width: 2px;
+      background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,.92),
+        rgba(255,255,255,.54) 92%,
+        rgba(255,255,255,.08)
+      );
+    }
+
+    .chapter {
+      position: relative;
+      margin: 42px 0 18px;
+      padding-top: 2px;
+    }
+
+    .chapter:first-child {
+      margin-top: 0;
+    }
+
+    .chapter::before {
+      content: "";
+      position: absolute;
+      left: -44px;
+      top: 8px;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      border: 2px solid var(--bg);
+      background: var(--lavender);
+      box-shadow: 0 0 0 2px rgba(255,255,255,.28);
+    }
+
+    .chapter-title {
+      margin: 0;
+      color: var(--lavender);
+      font-size: 13px;
+      font-weight: 300;
+      letter-spacing: .22em;
+      line-height: 1.5;
+    }
+
+    .chapter.romanticist .chapter-title,
+    .chapter.romanticist::before {
+      color: var(--green);
+      background: var(--green);
+    }
+
+    .chapter.romance .chapter-title,
+    .chapter.romance::before {
+      color: var(--blue);
+      background: var(--blue);
+    }
+
+    .chapter.ngc .chapter-title,
+    .chapter.ngc::before {
+      color: var(--lavender);
+      background: var(--lavender);
+    }
+
+    .chapter.needed .chapter-title,
+    .chapter.needed::before {
+      color: var(--cream);
+      background: var(--cream);
+    }
+
+    .event {
+      position: relative;
+      padding: 0 0 34px 0;
+    }
+
+    .event::before {
+      content: "";
+      position: absolute;
+      left: -44px;
+      top: 7px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid var(--bg);
+      background: var(--blue);
+      box-shadow: 0 0 0 2px rgba(255,255,255,.42);
+    }
+
+    .event.green::before { background: var(--green); }
+    .event.blue::before { background: var(--blue); }
+    .event.cream::before { background: var(--cream); }
+    .event.lavender::before { background: var(--lavender); }
+
+    .age {
+      margin: 0 0 8px;
+      color: #dfe5f3;
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 1.3;
+    }
+
+    .event p {
+      margin: 0;
+      color: #d5d5d8;
+      font-size: 15px;
+      line-height: 2;
+      word-break: keep-all;
+    }
+
+    .event p + p {
+      margin-top: 4px;
+    }
+
+    .closing {
+      margin-top: 12px;
+      padding: 24px 26px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255,255,255,.025);
+    }
+
+    .closing strong {
+      display: block;
+      color: var(--text);
+      font-size: clamp(17px, 2.6vw, 23px);
+      font-weight: 300;
+      line-height: 1.7;
+    }
+
+    .closing p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    /* shared music player */
+    .music-player {
+      position: fixed;
+      z-index: 50;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      width: min(720px, calc(100% - 32px));
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 9px 13px 9px 18px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      color: var(--text);
+      background: rgba(34,34,39,.90);
+      box-shadow: 0 14px 38px rgba(0,0,0,.26);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .music-left,
+    .music-controls {
+      display: flex;
+      align-items: center;
+    }
+
+    .music-left {
+      gap: 11px;
+      min-width: 0;
+    }
+
+    .music-icon {
+      color: var(--blue);
+      font-size: 18px;
+      flex: 0 0 auto;
+    }
+
+    .music-title {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: #d9d9dc;
+      font-size: 12px;
+    }
+
+    .music-controls {
+      gap: 4px;
+      flex: 0 0 auto;
+    }
+
+    .music-btn {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      border: 1px solid var(--line-strong);
+      border-radius: 50%;
+      color: var(--text);
+      background: rgba(255,255,255,.045);
+      cursor: pointer;
+    }
+
+    .music-btn.small {
+      width: 32px;
+      height: 32px;
+      border-color: transparent;
+      background: transparent;
+      font-size: 18px;
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(100% - 24px, 980px);
+        padding-top: 24px;
+        padding-bottom: 116px;
+      }
+
+      .timeline {
+        margin-top: 28px;
+        padding-left: 42px;
+      }
+
+      .timeline::before {
+        left: 11px;
+      }
+
+      .chapter::before,
+      .event::before {
+        left: -36px;
+      }
+
+      .chapter {
+        margin-top: 34px;
+      }
+
+      .chapter-title {
+        font-size: 11px;
+        letter-spacing: .17em;
+      }
+
+      .age {
+        font-size: 16px;
+      }
+
+      .event {
+        padding-bottom: 28px;
+      }
+
+      .event p {
+        font-size: 13px;
+        line-height: 1.9;
+      }
+
+      .closing {
+        padding: 21px 22px;
+        border-radius: 19px;
+      }
+
+      .music-player {
+        bottom: 12px;
+        min-height: 56px;
+        padding-left: 14px;
+      }
+
+      .music-title {
+        max-width: 160px;
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <div class="topbar">
+      <a class="back" href="../index.html" aria-label="메인으로 돌아가기">← BACK TO MAIN</a>
+      <p class="page-title">TIMELINE</p>
+    </div>
+
+    <section class="timeline" aria-label="두 사람의 관계 타임라인">
+
+      <div class="chapter romanticist">
+        <h2 class="chapter-title">YOU ARE MY ROMANTICIST.</h2>
+      </div>
+
+      <article class="event green">
+        <h3 class="age">0세</h3>
+        <p>기억도 나지 않는 어린 시절 처음 만나다.</p>
+      </article>
+
+      <article class="event blue">
+        <h3 class="age">5세</h3>
+        <p>지서우, 아역 배우 활동을 시작하다.</p>
+      </article>
+
+      <article class="event green">
+        <h3 class="age">12세</h3>
+        <p>비 오는 날, 어린 성준수가 친모에게 맞은 뒤 밖에 웅크리고 있던 지서우에게 투명우산을 건네다.</p>
+        <p>지서우가 바라던 도움과는 조금 달랐지만, 그 서툰 다정은 오래 남는 위로가 되다.</p>
+        <p>성준수, 이후 지서우가 학대당한다는 사실을 알고 이를 신고하다.</p>
+        <p>지서우, 현재의 가정에 입양되고 배우 활동의 휴식기를 시작하다.</p>
+      </article>
+
+      <div class="chapter romance">
+        <h2 class="chapter-title">YOU ARE MY ROMANCE.</h2>
+      </div>
+
+      <article class="event blue">
+        <h3 class="age">17세</h3>
+        <p>성준수, 농구를 계속하기 위해 부산의 지상고등학교로 전학하다.</p>
+        <p>지서우, 장도고등학교에 입학하다.</p>
+        <p>지서우, 성준수가 보고 싶다는 이유로 부산에 내려가기 시작하다.</p>
+      </article>
+
+      <article class="event blue">
+        <h3 class="age">18세 여름</h3>
+        <p>성준수가 답답한 마음에 밖으로 나왔다가 비를 맞게 된 어느 날, 이번에는 지서우가 성준수에게 투명우산을 건네다.</p>
+        <p>어린 시절의 장면은 반대의 형태로 되돌아오고, 성준수의 마음에는 설명하기 어려운 위화감이 남다.</p>
+      </article>
+
+      <div class="chapter ngc">
+        <h2 class="chapter-title">NGC 4038 × NGC 4039</h2>
+      </div>
+
+      <article class="event lavender">
+        <h3 class="age">18세 가을</h3>
+        <p>성준수, 자신이 힘들 때마다 위로가 되어주는 지서우의 존재에 위화감을 느끼다.</p>
+        <p>지서우가 자신 없이도 괜찮아지고 있다는 사실, 그리고 오히려 자신이 지서우에게 은연중 의지하고 있었다는 사실을 깨닫고 크게 충격받다.</p>
+        <p>결국 실수로 지서우에게 심한 말을 하고, 관계가 파탄나다.</p>
+      </article>
+
+      <div class="chapter needed">
+        <h2 class="chapter-title">NOT ESSENTIAL, STILL NEEDED.</h2>
+      </div>
+
+      <article class="event cream">
+        <h3 class="age">19세</h3>
+        <p>지서우, 배우로 복귀하다.</p>
+        <p>성준수, 쌍용기 이후 여유를 되찾으며 지서우와의 관계를 돌아볼 시간을 갖게 되다.</p>
+        <p>복귀한 지서우의 인터뷰와 드라마, 화보와 광고를 보며 지서우가 자신 없이도 충분히 살아갈 수 있는 사람이며, 자신과는 다른 방향으로 강한 사람임을 받아들이다.</p>
+        <p>그리고 자신이 지서우를 사랑하고 있음을 인정하다.</p>
+        <p>성준수, 오직 보고 싶다는 이유 하나만으로 서울에 올라가 지서우에게 사과하고 고백하다.</p>
+        <p>지서우는 성준수의 사과와 고백을 받아들이다.</p>
+      </article>
+
+      <article class="event green">
+        <h3 class="age">20세</h3>
+        <p>각각 준향대 체육교육과와 연극영화과에 진학하다.</p>
+        <p>두 사람은 이제 어느 한쪽이 다른 한쪽을 구해주어야만 하는 관계가 아니다.</p>
+        <p>각자의 힘으로 충분히 앞으로 나아갈 수 있게 된 뒤에도 서로를 선택하고, 각자의 우산을 든 채 같은 비를 지나 나란히 걷기를 바란다.</p>
+      </article>
+
+    </section>
+
+    <aside class="closing" aria-label="타임라인 엔딩 문구">
+      <strong>네가 필수적이진 않지만, 그럼에도 불구하고 네가 필요해.</strong>
+      <p>필요하기 때문에 사랑하는 것이 아니라, 필요하지 않아도 서로를 선택한다. 그 비합리적인 선택이 두 사람에게는 낭만이다.</p>
+    </aside>
+  </main>
+
+  <div class="music-player" id="music-player">
+    <div class="music-left">
+      <span class="music-icon">♫</span>
+      <span class="music-title" id="music-title">Dive with You - Seori</span>
+    </div>
+
+    <div class="music-controls">
+      <button aria-label="previous track" class="music-btn small" onclick="prevTrack()">‹</button>
+      <button aria-label="play or pause" class="music-btn" id="music-btn" onclick="toggleMusic()">▶</button>
+      <button aria-label="next track" class="music-btn small" onclick="nextTrack()">›</button>
+    </div>
+
+    <audio id="bgm" preload="metadata"></audio>
+  </div>
+
+  <script src="../common.js"></script>
+</body>
+</html>
