@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#25252a" />
+  <title>Fragments | Blue Summer Rain</title>
+
+  <style>
+    @font-face {
+      font-family: "GmarketSans";
+      src: url("../GmarketSansTTFLight.ttf") format("truetype");
+      font-weight: 300;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --bg: #25252a;
+      --panel: rgba(24,24,28,.56);
+      --text: #f1f1f2;
+      --muted: #aaaab0;
+      --muted-2: #85858c;
+      --line: rgba(255,255,255,.12);
+      --line-strong: rgba(255,255,255,.18);
+      --accent: #d8e3d4;
+      --shadow: rgba(0,0,0,.28);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: "GmarketSans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 300;
+      letter-spacing: -0.025em;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(159,180,225,.08), transparent 25%),
+        radial-gradient(circle at 88% 82%, rgba(191,223,194,.06), transparent 28%),
+        var(--bg);
+    }
+
+    body.modal-open { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    .page {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      padding: 40px 0 132px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 42px;
+    }
+
+    .back {
+      display: inline-flex;
+      align-items: center;
+      color: var(--muted);
+      font-size: 12px;
+      letter-spacing: .08em;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+
+    .back:hover {
+      opacity: .72;
+      transform: translateX(-2px);
+    }
+
+    .page-kicker {
+      margin: 0;
+      color: var(--muted-2);
+      font-size: 12px;
+      letter-spacing: .30em;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      margin-bottom: 46px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      color: var(--text);
+      font-size: clamp(54px, 8vw, 96px);
+      font-weight: 300;
+      line-height: 1;
+      letter-spacing: -.055em;
+    }
+
+    .hero p {
+      margin: 20px 0 0;
+      color: #c3bfdc;
+      font-size: clamp(15px, 2vw, 20px);
+      letter-spacing: .01em;
+    }
+
+    .fragment-list {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .fragment-card {
+      width: 100%;
+      min-height: 146px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 28px 34px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      color: var(--text);
+      background: var(--panel);
+      box-shadow: 0 16px 42px rgba(0,0,0,.14);
+      cursor: pointer;
+      text-align: left;
+      transition: transform .24s ease, border-color .24s ease, background .24s ease;
+    }
+
+    .fragment-card:hover,
+    .fragment-card:focus-visible {
+      transform: translateY(-2px);
+      border-color: rgba(216,227,212,.28);
+      background: rgba(31,31,36,.70);
+      outline: none;
+    }
+
+    .fragment-title {
+      margin: 0;
+      color: #f3f3f4;
+      font-size: 22px;
+      font-weight: 300;
+      letter-spacing: .01em;
+    }
+
+    .fragment-subtitle {
+      margin: 14px 0 0;
+      color: #aaa7c9;
+      font-size: 15px;
+    }
+
+    /* modal */
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: none;
+      padding: 68px 28px 32px;
+      background: rgba(4,4,6,.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      overflow-y: auto;
+    }
+
+    .modal.open { display: block; }
+
+    .modal-close {
+      position: fixed;
+      z-index: 1002;
+      top: 18px;
+      right: 26px;
+      border: 0;
+      padding: 8px 10px;
+      color: #d4d1e5;
+      background: transparent;
+      font-size: 13px;
+      letter-spacing: .15em;
+      cursor: pointer;
+    }
+
+    .modal-close:hover { opacity: .68; }
+
+    .modal-panel {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 44px 48px 62px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: rgba(17,17,20,.92);
+      box-shadow: 0 30px 90px rgba(0,0,0,.38);
+    }
+
+    .modal-title {
+      margin: 0;
+      color: var(--text);
+      font-size: clamp(30px, 5vw, 46px);
+      font-weight: 300;
+      line-height: 1.2;
+    }
+
+    .modal-subtitle {
+      margin: 12px 0 0;
+      color: #aaa7c9;
+      font-size: 14px;
+    }
+
+    .modal-divider {
+      height: 1px;
+      margin: 28px 0 32px;
+      background: var(--line);
+    }
+
+    .fragment-visual {
+      margin: 0 0 30px;
+    }
+
+    .fragment-visual img {
+      width: min(760px, 100%);
+      max-height: 72vh;
+      display: block;
+      margin: 0 auto;
+      object-fit: contain;
+      border-radius: 20px;
+      background: #101013;
+    }
+
+    .fragment-credit {
+      width: min(760px, 100%);
+      margin: 10px auto 0;
+      color: var(--muted);
+      font-size: 12px;
+      text-align: right;
+      letter-spacing: .02em;
+    }
+
+    .fragment-bgm {
+      margin: 0 0 28px;
+      padding: 13px 16px;
+      border-left: 2px solid rgba(216,227,212,.48);
+      color: #c8c8cf;
+      background: rgba(255,255,255,.025);
+      font-size: 13px;
+      line-height: 1.7;
+      word-break: keep-all;
+    }
+
+    .fragment-bgm strong {
+      color: var(--accent);
+      font-weight: 300;
+      letter-spacing: .08em;
+    }
+
+    .modal-text {
+      margin: 0;
+      color: #d7d7dc;
+      font-size: clamp(15px, 1.8vw, 18px);
+      line-height: 2.05;
+      white-space: pre-wrap;
+      word-break: keep-all;
+    }
+
+    .loading {
+      color: var(--muted);
+    }
+
+    .error {
+      color: #d6a5a5;
+    }
+
+    /* shared music player */
+    .music-player {
+      position: fixed;
+      z-index: 50;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      width: min(720px, calc(100% - 32px));
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 9px 13px 9px 18px;
+      border: 1px solid var(--line-strong);
+      border-radius: 999px;
+      color: var(--text);
+      background: rgba(34,34,39,.90);
+      box-shadow: 0 14px 38px rgba(0,0,0,.26);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+
+    .music-left,
+    .music-controls {
+      display: flex;
+      align-items: center;
+    }
+
+    .music-left { gap: 11px; min-width: 0; }
+
+    .music-icon {
+      color: var(--accent);
+      font-size: 18px;
+      flex: 0 0 auto;
+    }
+
+    .music-title {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      color: #d9d9dc;
+      font-size: 12px;
+    }
+
+    .music-controls { gap: 4px; flex: 0 0 auto; }
+
+    .music-btn {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      border: 1px solid var(--line-strong);
+      border-radius: 50%;
+      color: var(--text);
+      background: rgba(255,255,255,.045);
+      cursor: pointer;
+    }
+
+    .music-btn.small {
+      width: 32px;
+      height: 32px;
+      border-color: transparent;
+      background: transparent;
+      font-size: 18px;
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(100% - 24px, 1120px);
+        padding-top: 24px;
+        padding-bottom: 116px;
+      }
+
+      .topbar { margin-bottom: 30px; }
+      .hero { margin-bottom: 30px; }
+
+      .fragment-card {
+        min-height: 126px;
+        padding: 24px 26px;
+        border-radius: 22px;
+      }
+
+      .fragment-title { font-size: 19px; }
+
+      .modal {
+        padding: 58px 12px 20px;
+      }
+
+      .modal-close {
+        top: 12px;
+        right: 10px;
+      }
+
+      .modal-panel {
+        padding: 30px 22px 42px;
+        border-radius: 22px;
+      }
+
+      .fragment-visual img {
+        border-radius: 16px;
+      }
+
+      .fragment-credit {
+        font-size: 11px;
+      }
+
+      .fragment-bgm {
+        margin-bottom: 24px;
+        padding: 12px 14px;
+        font-size: 12px;
+      }
+
+      .modal-text {
+        font-size: 14px;
+        line-height: 1.95;
+      }
+
+      .music-player {
+        bottom: 12px;
+        min-height: 56px;
+        padding-left: 14px;
+      }
+
+      .music-title {
+        max-width: 160px;
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <div class="topbar">
+      <a class="back" href="../index.html" aria-label="메인으로 돌아가기">← BACK TO MAIN</a>
+      <p class="page-kicker">FRAGMENTS</p>
+    </div>
+
+    <section class="hero">
+      <h1>Fragments</h1>
+      <p>written pieces / 글 조각</p>
+    </section>
+
+    <section class="fragment-list" aria-label="글 조각 목록">
+      <button
+        class="fragment-card"
+        type="button"
+        data-title="Fragment 001"
+        data-subtitle="해리포터 AU"
+        data-file="./fragment001.txt"
+        data-image="./IMG_8927.jpeg"
+        data-credit="맥님"
+        data-bgm="500 days(Feat. Jae Luna, i am luu) - Dept"
+      >
+        <p class="fragment-title">Fragment 001</p>
+        <p class="fragment-subtitle">해리포터 AU</p>
+      </button>
+    </section>
+  </main>
+
+  <div class="modal" id="fragment-modal" aria-hidden="true">
+    <button class="modal-close" id="modal-close" type="button">CLOSE</button>
+
+    <article class="modal-panel">
+      <h2 class="modal-title" id="modal-title"></h2>
+      <p class="modal-subtitle" id="modal-subtitle"></p>
+      <div class="modal-divider"></div>
+
+      <figure class="fragment-visual" id="fragment-visual">
+        <img id="fragment-image" src="" alt="" />
+        <figcaption class="fragment-credit" id="fragment-credit"></figcaption>
+      </figure>
+
+      <div class="fragment-bgm" id="fragment-bgm">
+        <strong>BGM :</strong>
+        <span id="fragment-bgm-text"></span>
+      </div>
+
+      <div class="modal-text" id="modal-text"></div>
+    </article>
+  </div>
+
+  <div class="music-player" id="music-player">
+    <div class="music-left">
+      <span class="music-icon">♫</span>
+      <span class="music-title" id="music-title">Dive with You - Seori</span>
+    </div>
+
+    <div class="music-controls">
+      <button aria-label="previous track" class="music-btn small" onclick="prevTrack()">‹</button>
+      <button aria-label="play or pause" class="music-btn" id="music-btn" onclick="toggleMusic()">▶</button>
+      <button aria-label="next track" class="music-btn small" onclick="nextTrack()">›</button>
+    </div>
+
+    <audio id="bgm" preload="metadata"></audio>
+  </div>
+
+  <script>
+    (() => {
+      const modal = document.getElementById("fragment-modal");
+      const closeBtn = document.getElementById("modal-close");
+      const titleEl = document.getElementById("modal-title");
+      const subtitleEl = document.getElementById("modal-subtitle");
+      const visualEl = document.getElementById("fragment-visual");
+      const imageEl = document.getElementById("fragment-image");
+      const creditEl = document.getElementById("fragment-credit");
+      const bgmEl = document.getElementById("fragment-bgm");
+      const bgmTextEl = document.getElementById("fragment-bgm-text");
+      const textEl = document.getElementById("modal-text");
+
+      async function openFragment(card) {
+        const title = card.dataset.title || "Fragment";
+        const subtitle = card.dataset.subtitle || "";
+        const file = card.dataset.file;
+        const image = card.dataset.image || "";
+        const credit = card.dataset.credit || "";
+        const bgm = card.dataset.bgm || "";
+
+        titleEl.textContent = title;
+        subtitleEl.textContent = subtitle;
+
+        if (image) {
+          imageEl.src = image;
+          imageEl.alt = `${title} 일러스트`;
+          creditEl.textContent = credit ? `© ${credit}` : "";
+          visualEl.style.display = "";
+        } else {
+          visualEl.style.display = "none";
+        }
+
+        if (bgm) {
+          bgmTextEl.textContent = bgm;
+          bgmEl.style.display = "";
+        } else {
+          bgmEl.style.display = "none";
+        }
+
+        textEl.className = "modal-text loading";
+        textEl.textContent = "불러오는 중…";
+
+        modal.classList.add("open");
+        modal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("modal-open");
+
+        try {
+          const response = await fetch(file, { cache: "no-store" });
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+          const text = await response.text();
+          textEl.className = "modal-text";
+          textEl.textContent = text;
+        } catch (error) {
+          console.error(error);
+          textEl.className = "modal-text error";
+          textEl.textContent = "글을 불러오지 못했습니다. fragment001.txt 파일 위치와 이름을 확인해 주세요.";
+        }
+      }
+
+      function closeFragment() {
+        modal.classList.remove("open");
+        modal.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("modal-open");
+        imageEl.removeAttribute("src");
+      }
+
+      document.querySelectorAll(".fragment-card").forEach((card) => {
+        card.addEventListener("click", () => openFragment(card));
+      });
+
+      closeBtn.addEventListener("click", closeFragment);
+
+      modal.addEventListener("click", (event) => {
+        if (event.target === modal) closeFragment();
+      });
+
+      window.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && modal.classList.contains("open")) {
+          closeFragment();
+        }
+      });
+    })();
+  </script>
+
+  <script src="../common.js"></script>
+</body>
+</html>
