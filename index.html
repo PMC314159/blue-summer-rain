@@ -4,10 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#25252a" />
-
   <link rel="icon" type="image/x-icon" href="./favicon.ico?v=20260915-2" />
   <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico?v=20260915-2" />
-
   <title>Blue Summer Rain</title>
 
   <style>
@@ -28,40 +26,22 @@
       --line-strong: rgba(75, 91, 78, 0.34);
       --shadow: rgba(45, 60, 49, 0.12);
       --radius: 22px;
-      --gap: 18px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
       min-height: 100vh;
       color: var(--sage-dark);
-      font-family:
-        "GmarketSans",
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
+      font-family: "GmarketSans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       font-weight: 300;
       letter-spacing: -0.025em;
       background:
-        radial-gradient(
-          circle at 12% 8%,
-          rgba(159, 180, 225, 0.08),
-          transparent 25%
-        ),
-        radial-gradient(
-          circle at 88% 82%,
-          rgba(191, 223, 194, 0.06),
-          transparent 28%
-        ),
+        radial-gradient(circle at 12% 8%, rgba(159,180,225,.08), transparent 25%),
+        radial-gradient(circle at 88% 82%, rgba(191,223,194,.06), transparent 28%),
         var(--bg);
     }
 
@@ -73,30 +53,15 @@
       pointer-events: none;
       opacity: 0.08;
       background-image:
-        linear-gradient(
-          rgba(255, 255, 255, 0.34) 1px,
-          transparent 1px
-        ),
-        linear-gradient(
-          90deg,
-          rgba(255, 255, 255, 0.28) 1px,
-          transparent 1px
-        );
+        linear-gradient(rgba(255,255,255,0.34) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.28) 1px, transparent 1px);
       background-size: 58px 58px;
-      -webkit-mask-image:
-        linear-gradient(to bottom, #000 0%, transparent 78%);
-      mask-image:
-        linear-gradient(to bottom, #000 0%, transparent 78%);
+      -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 78%);
+      mask-image: linear-gradient(to bottom, #000 0%, transparent 78%);
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button {
-      font: inherit;
-    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
 
     .page {
       position: relative;
@@ -112,7 +77,7 @@
       justify-content: space-between;
       gap: 28px;
       padding-bottom: 22px;
-      border-bottom: 1px solid rgba(216, 227, 212, 0.22);
+      border-bottom: 1px solid rgba(216,227,212,.22);
     }
 
     .title {
@@ -133,13 +98,13 @@
 
     .symbol {
       width: 42px;
+      color: #d8e3d4;
       height: 42px;
       display: grid;
       place-items: center;
-      color: #d8e3d4;
-      border: 1px solid rgba(216, 227, 212, 0.22);
+      border: 1px solid rgba(216,227,212,.22);
       border-radius: 50%;
-      background: rgba(216, 227, 212, 0.05);
+      background: rgba(216,227,212,.05);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
     }
@@ -155,67 +120,33 @@
     }
 
     .gallery {
+      margin-top: 28px;
       display: flex;
       flex-direction: column;
-      gap: var(--gap);
-      margin-top: 28px;
+      gap: 18px;
     }
-
-    /* 상단: 작은 서우 그림 + 넓은 이어폰 그림 */
     .gallery-top {
       display: grid;
-      grid-template-columns:
-        minmax(0, 0.9fr)
-        minmax(0, 1.55fr);
-      gap: var(--gap);
+      grid-template-columns: minmax(0,.9fr) minmax(0,1.55fr);
+      gap: 18px;
     }
-
-    /*
-      하단:
-      왼쪽 위 timeline / 왼쪽 아래 stills
-      오른쪽 fragments가 두 칸 높이를 차지
-    */
     .gallery-bottom {
       display: grid;
-      grid-template-columns:
-        minmax(0, 1.08fr)
-        minmax(0, 1fr);
-      grid-template-rows: auto auto;
-      grid-template-areas:
-        "timeline fragments"
-        "stills   fragments";
-      gap: var(--gap);
+      grid-template-columns: minmax(0,1.08fr) minmax(0,1fr);
+      grid-template-areas: "timeline fragments" "stills fragments";
+      gap: 18px;
       align-items: stretch;
     }
-
     .tile {
       position: relative;
       display: block;
+      overflow: hidden;
       min-width: 0;
       min-height: 0;
-      overflow: hidden;
-      border: 0;
       border-radius: var(--radius);
       background: var(--paper);
-      box-shadow: 0 8px 24px rgba(51, 68, 55, 0.025);
-      isolation: isolate;
-      transition:
-        transform 0.28s ease,
-        box-shadow 0.28s ease;
+      transition: transform .28s ease, box-shadow .28s ease;
     }
-
-    .tile::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background: linear-gradient(
-        to bottom,
-        rgba(235, 242, 229, 0),
-        rgba(60, 80, 65, 0.035)
-      );
-    }
-
     .tile img {
       position: absolute;
       inset: 0;
@@ -223,65 +154,17 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.48s cubic-bezier(0.2, 0.7, 0.2, 1);
+      object-position: center;
+      transition: transform .48s ease;
     }
-
-    .tile:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 18px 42px var(--shadow);
-    }
-
-    .tile:focus-visible {
-      outline: 2px solid #d8e3d4;
-      outline-offset: 4px;
-    }
-
-    .tile:hover img {
-      transform: scale(1.012);
-    }
-
-    /* 왼쪽 위: 파란 배경 서우 */
-    .romance-tile {
-      aspect-ratio: 1 / 1;
-    }
-
-    .romance-tile img {
-      object-position: center center;
-    }
-
-    /* 오른쪽 위: 노란빛 이어폰 */
-    .personnel-tile img {
-      object-position: center center;
-    }
-
-    /* 왼쪽 중앙: 얼굴을 가까이 붙인 두 사람 */
-    .timeline-tile {
-      grid-area: timeline;
-      aspect-ratio: 1 / 1;
-    }
-
-    .timeline-tile img {
-      object-position: center 42%;
-    }
-
-    /* 왼쪽 아래: 고래님 그림 */
-    .stills-tile {
-      grid-area: stills;
-      aspect-ratio: 1.9 / 1;
-    }
-
-    .stills-tile img {
-      object-position: center center;
-    }
-
-    /* 오른쪽 아래: 어두운 우산 속 두 사람 */
-    .fragments-tile {
-      grid-area: fragments;
-    }
-
-    .fragments-tile img {
-      object-position: center center;
-    }
+    .tile:hover { transform: translateY(-3px); box-shadow: 0 18px 42px var(--shadow); }
+    .tile:hover img { transform: scale(1.012); }
+    .tile:focus-visible { outline: 2px solid #d8e3d4; outline-offset: 4px; }
+    .romance-tile { aspect-ratio: 1; }
+    .timeline-tile { grid-area: timeline; aspect-ratio: 1; }
+    .timeline-tile img { object-position: center 42%; }
+    .stills-tile { grid-area: stills; aspect-ratio: 1.9; }
+    .fragments-tile { grid-area: fragments; }
 
     .music-player {
       position: fixed;
@@ -343,7 +226,7 @@
       border: 1px solid var(--line);
       border-radius: 50%;
       color: var(--sage-dark);
-      background: rgba(255, 255, 255, 0.48);
+      background: rgba(255,255,255,0.48);
       cursor: pointer;
     }
 
@@ -356,241 +239,65 @@
     }
 
     @media (max-width: 900px) {
-      :root {
-        --gap: 14px;
-      }
-
-      .page {
-        width: min(calc(100% - 30px), 760px);
-      }
-
-      .masthead {
-        gap: 18px;
-      }
-
-      .title {
-        font-size: clamp(40px, 6.8vw, 65px);
-      }
-
-      .symbol {
-        width: 36px;
-        height: 36px;
-      }
-
-      .symbol svg {
-        width: 18px;
-        height: 18px;
-      }
-
-      .tile {
-        border-radius: 19px;
-      }
+      .page { width: min(calc(100% - 30px),760px); }
+      .gallery, .gallery-top, .gallery-bottom { gap: 14px; }
     }
-
     @media (max-width: 600px) {
-      :root {
-        --gap: 12px;
-      }
-
-      .page {
-        width: calc(100% - 24px);
-        padding-top: 28px;
-        padding-bottom: 118px;
-      }
-
-      .masthead {
-        align-items: center;
-        gap: 10px;
-        padding-bottom: 16px;
-      }
-
-      .title {
-        font-size: clamp(29px, 7.7vw, 46px);
-      }
-
-      .symbols {
-        gap: 4px;
-      }
-
-      .symbol {
-        width: 26px;
-        height: 26px;
-      }
-
-      .symbol svg {
-        width: 14px;
-        height: 14px;
-      }
-
-      .gallery {
-        margin-top: 16px;
-      }
-
-      .gallery-top {
-        grid-template-columns:
-          minmax(0, 0.9fr)
-          minmax(0, 1.55fr);
-      }
-
-      .gallery-bottom {
-        grid-template-columns:
-          minmax(0, 1.08fr)
-          minmax(0, 1fr);
-      }
-
-      .tile {
-        border-radius: 13px;
-      }
-
-      .music-player {
-        left: 12px;
-        right: 12px;
-        bottom: 12px;
-        width: auto;
-        min-height: 56px;
-        padding: 8px 9px 8px 13px;
-      }
-
-      .music-icon {
-        display: none;
-      }
-
-      .music-title {
-        font-size: 10px;
-      }
+      .page { width: calc(100% - 24px); padding: 28px 0 118px; }
+      .masthead { gap: 10px; padding-bottom: 16px; }
+      .title { font-size: clamp(29px,7.7vw,46px); }
+      .symbols { gap: 4px; }
+      .symbol { width: 26px; height: 26px; }
+      .symbol svg { width: 14px; height: 14px; }
+      .gallery { margin-top: 16px; }
+      .gallery, .gallery-top, .gallery-bottom { gap: 12px; }
+      .tile { border-radius: 13px; }
+      .music-player { left: 12px; right: 12px; bottom: 12px; width: auto; min-height: 56px; padding: 8px 9px 8px 13px; }
+      .music-icon { display: none; }
+      .music-title { font-size: 10px; }
     }
-
     @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
-
-      .tile,
-      .tile img {
-        transition: none;
-      }
-
-      .tile:hover,
-      .tile:hover img {
-        transform: none;
-      }
+      html { scroll-behavior: auto; }
+      .tile, .tile img { transition: none; }
+      .tile:hover, .tile:hover img { transform: none; }
     }
   </style>
 </head>
-
 <body>
   <main class="page">
     <header class="masthead">
       <h1 class="title">Blue Summer Rain</h1>
-
       <div class="symbols" aria-label="pair symbols">
-        <span
-          class="symbol"
-          title="transparent umbrella"
-          aria-label="transparent umbrella"
-        >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 11.5a8 8 0 0 1 16 0H4Z" />
-            <path d="M12 3.5v14.2c0 1.8.9 2.8 2.2 2.8 1.1 0 1.8-.7 1.8-1.7" />
-            <path
-              d="M7 11.5c.5-2.1 2.2-3.7 5-3.7s4.5 1.6 5 3.7"
-              opacity=".55"
-            />
-          </svg>
+        <span class="symbol" title="transparent umbrella" aria-label="transparent umbrella">
+          <svg viewBox="0 0 24 24"><path d="M4 11.5a8 8 0 0 1 16 0H4Z"/><path d="M12 3.5v14.2c0 1.8.9 2.8 2.2 2.8 1.1 0 1.8-.7 1.8-1.7"/><path d="M7 11.5c.5-2.1 2.2-3.7 5-3.7s4.5 1.6 5 3.7" opacity=".55"/></svg>
         </span>
-
-        <span
-          class="symbol"
-          title="summer shower"
-          aria-label="summer shower"
-        >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M6.5 8.5c.6-2.4 2.4-3.8 4.7-3.8 2.2 0 4 1.2 4.8 3.2.4-.2.9-.3 1.4-.3 1.8 0 3.1 1.2 3.1 2.8 0 1.7-1.4 2.9-3.3 2.9H6.7c-1.9 0-3.2-1.2-3.2-2.8 0-1.5 1.2-2.6 3-2.6" />
-            <path d="M7 16.2 6.2 18M12 16.2 11 18.5M17 16.2 16.1 18.3" />
-          </svg>
+        <span class="symbol" title="summer shower" aria-label="summer shower">
+          <svg viewBox="0 0 24 24"><path d="M6.5 8.5c.6-2.4 2.4-3.8 4.7-3.8 2.2 0 4 1.2 4.8 3.2.4-.2.9-.3 1.4-.3 1.8 0 3.1 1.2 3.1 2.8 0 1.7-1.4 2.9-3.3 2.9H6.7c-1.9 0-3.2-1.2-3.2-2.8 0-1.5 1.2-2.6 3-2.6"/><path d="M7 16.2 6.2 18M12 16.2 11 18.5M17 16.2 16.1 18.3"/></svg>
         </span>
-
-        <span
-          class="symbol"
-          title="NGC 4038 × NGC 4039"
-          aria-label="NGC 4038 × NGC 4039"
-        >
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M10.8 7.2c2.8-2 6.7-1.8 8.6.4 2 2.2 1.2 5.6-1.8 7.5-2.9 1.9-6.8 1.5-8.5-.7-1.7-2.1-.9-5.3 1.7-7.2Z" />
-            <path d="M13.2 9.5c-2.6-2.1-6.2-2.4-8.3-.8-2.2 1.7-2.2 4.8.1 6.9 2.4 2.1 6.1 2.3 8.3.6" />
-          </svg>
+        <span class="symbol" title="NGC 4038 × NGC 4039" aria-label="NGC 4038 × NGC 4039">
+          <svg viewBox="0 0 24 24"><path d="M10.8 7.2c2.8-2 6.7-1.8 8.6.4 2 2.2 1.2 5.6-1.8 7.5-2.9 1.9-6.8 1.5-8.5-.7-1.7-2.1-.9-5.3 1.7-7.2Z"/><path d="M13.2 9.5c-2.6-2.1-6.2-2.4-8.3-.8-2.2 1.7-2.2 4.8.1 6.9 2.4 2.1 6.1 2.3 8.3.6"/></svg>
         </span>
       </div>
     </header>
 
     <section class="gallery" aria-label="archive navigation">
-      <!-- 상단 -->
       <div class="gallery-top">
-        <!-- 왼쪽 위: 파란 배경 서우 → romance -->
-        <a
-          class="tile romance-tile"
-          href="./romance/index.html"
-          aria-label="그때, 네가 나를 보았다"
-        >
-          <img
-            src="./IMG_1226.jpeg"
-            alt="파란 배경 아래 하늘을 올려다보는 지서우"
-            fetchpriority="high"
-          />
+        <a class="tile romance-tile" href="./romance/index.html" aria-label="그때, 네가 나를 보았다">
+          <img src="./IMG_1226.jpeg" alt="파란 배경 아래 하늘을 올려다보는 지서우" />
         </a>
-
-        <!-- 오른쪽 위: 노란빛 이어폰 → personnel -->
-        <a
-          class="tile personnel-tile"
-          href="./personnel/index.html"
-          aria-label="인물 소개"
-        >
-          <img
-            src="./personnel.png"
-            alt="노란빛 아래 이어폰을 나눠 낀 준수와 서우"
-          />
+        <a class="tile personnel-tile" href="./personnel/index.html" aria-label="인물 소개">
+          <img src="./personnel.png" alt="노란빛 아래 이어폰을 나눠 낀 준수와 서우" />
         </a>
       </div>
-
-      <!-- 하단 -->
       <div class="gallery-bottom">
-        <!-- 왼쪽 중앙: 얼굴 밀착 그림 → timeline -->
-        <a
-          class="tile timeline-tile"
-          href="./timeline/index.html"
-          aria-label="타임라인"
-        >
-          <img
-            src="./timeling.png"
-            alt="얼굴을 가까이 붙인 준수와 서우"
-            loading="lazy"
-          />
+        <a class="tile timeline-tile" href="./timeline/index.html" aria-label="타임라인">
+          <img src="./timeline.png" alt="얼굴을 가까이 붙인 준수와 서우" loading="lazy" />
         </a>
-
-        <!-- 왼쪽 아래: 고래님 그림 → stills -->
-        <a
-          class="tile stills-tile"
-          href="./stills/index.html"
-          aria-label="스틸 아카이브"
-        >
-          <img
-            src="./stills.PNG"
-            alt="준수와 서우의 일러스트"
-            loading="lazy"
-          />
+        <a class="tile stills-tile" href="./stills/index.html" aria-label="스틸 아카이브">
+          <img src="./stiils.PNG" alt="준수와 서우의 일러스트" loading="lazy" />
         </a>
-
-        <!-- 오른쪽 긴 칸: 어두운 우산 그림 → fragments -->
-        <a
-          class="tile fragments-tile"
-          href="./fragments/index.html"
-          aria-label="글 아카이브"
-        >
-          <img
-            src="./fragments.jpg"
-            alt="비 내리는 거리에서 우산을 함께 쓴 준수와 서우"
-            loading="lazy"
-          />
+        <a class="tile fragments-tile" href="./fragments/index.html" aria-label="글 아카이브">
+          <img src="./fragments.jpg" alt="우산 속 준수와 서우" loading="lazy" />
         </a>
       </div>
     </section>
@@ -598,36 +305,14 @@
 
   <div class="music-player" id="music-player">
     <div class="music-left">
-      <span class="music-icon" aria-hidden="true">♫</span>
-      <span class="music-title" id="music-title">
-        Dive with You - Seori
-      </span>
+      <span class="music-icon">♫</span>
+      <span class="music-title" id="music-title">Dive with You - Seori</span>
     </div>
-
     <div class="music-controls">
-      <button
-        type="button"
-        aria-label="previous track"
-        class="music-btn small"
-        onclick="prevTrack()"
-      >‹</button>
-
-      <button
-        type="button"
-        aria-label="play or pause"
-        class="music-btn"
-        id="music-btn"
-        onclick="toggleMusic()"
-      >▶</button>
-
-      <button
-        type="button"
-        aria-label="next track"
-        class="music-btn small"
-        onclick="nextTrack()"
-      >›</button>
+      <button aria-label="previous track" class="music-btn small" onclick="prevTrack()">‹</button>
+      <button aria-label="play or pause" class="music-btn" id="music-btn" onclick="toggleMusic()">▶</button>
+      <button aria-label="next track" class="music-btn small" onclick="nextTrack()">›</button>
     </div>
-
     <audio id="bgm" preload="metadata"></audio>
   </div>
 
