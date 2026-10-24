@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#25252a" />
+  <meta name="theme-color" content="#dce6d7" />
   <link rel="icon" href="../favicon.ico" type="image/x-icon" />
   <title>Timeline | Blue Summer Rain</title>
 
@@ -17,18 +17,18 @@
     }
 
     :root {
-      --bg: #25252a;
-      --panel: #29292f;
-      --text: #f1f1f2;
-      --muted: #a9a9ae;
-      --muted-2: #85858c;
-      --line: rgba(255,255,255,.12);
-      --line-strong: rgba(255,255,255,.18);
-      --blue: #bed6f4;
-      --green: #c7e7c9;
-      --cream: #eadbbd;
-      --lavender: #c8c4eb;
-      --shadow: rgba(0,0,0,.20);
+      --bg: #dce6d7;
+      --panel: #e6eddf;
+      --text: #3d4c43;
+      --muted: #5f7064;
+      --muted-2: #697b6b;
+      --line: rgba(91,112,84,.18);
+      --line-strong: rgba(91,112,84,.29);
+      --blue: #4e6581;
+      --green: #506d50;
+      --cream: #7a674b;
+      --lavender: #6b6083;
+      --shadow: rgba(58,77,52,.09);
     }
 
     * { box-sizing: border-box; }
@@ -43,9 +43,8 @@
       font-weight: 300;
       letter-spacing: -0.025em;
       background:
-        radial-gradient(circle at 12% 8%, rgba(159,180,225,.08), transparent 25%),
-        radial-gradient(circle at 88% 82%, rgba(191,223,194,.06), transparent 28%),
-        var(--bg);
+        radial-gradient(ellipse at 6% 0%, rgba(237,243,231,.50), transparent 58%),
+        linear-gradient(145deg, #d8e7d1 0%, #dfe7db 52%, #dce3dc 100%);
     }
 
     a {
@@ -107,9 +106,9 @@
       width: 2px;
       background: linear-gradient(
         to bottom,
-        rgba(255,255,255,.92),
-        rgba(255,255,255,.54) 92%,
-        rgba(255,255,255,.08)
+        rgba(91,112,84,.60),
+        rgba(91,112,84,.35) 92%,
+        rgba(91,112,84,.08)
       );
     }
 
@@ -133,7 +132,7 @@
       border-radius: 50%;
       border: 2px solid var(--bg);
       background: var(--lavender);
-      box-shadow: 0 0 0 2px rgba(255,255,255,.28);
+      box-shadow: 0 0 0 2px rgba(91,112,84,.28);
     }
 
     .chapter-title {
@@ -184,7 +183,7 @@
       border-radius: 50%;
       border: 2px solid var(--bg);
       background: var(--blue);
-      box-shadow: 0 0 0 2px rgba(255,255,255,.42);
+      box-shadow: 0 0 0 2px rgba(91,112,84,.30);
     }
 
     .event.green::before { background: var(--green); }
@@ -194,7 +193,7 @@
 
     .age {
       margin: 0 0 8px;
-      color: #dfe5f3;
+      color: #3f5347;
       font-size: 18px;
       font-weight: 300;
       line-height: 1.3;
@@ -202,7 +201,7 @@
 
     .event p {
       margin: 0;
-      color: #d5d5d8;
+      color: #435347;
       font-size: 15px;
       line-height: 2;
       word-break: keep-all;
@@ -217,7 +216,7 @@
       padding: 24px 26px;
       border: 1px solid var(--line);
       border-radius: 22px;
-      background: rgba(255,255,255,.025);
+      background: rgba(247,251,243,.40);
     }
 
     .closing strong {
@@ -252,8 +251,8 @@
       border: 1px solid var(--line-strong);
       border-radius: 999px;
       color: var(--text);
-      background: rgba(34,34,39,.90);
-      box-shadow: 0 14px 38px rgba(0,0,0,.26);
+      background: rgba(239,244,233,.90);
+      box-shadow: 0 14px 38px rgba(58,77,52,.12);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
     }
@@ -279,7 +278,7 @@
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      color: #d9d9dc;
+      color: #4f6153;
       font-size: 12px;
     }
 
@@ -297,7 +296,7 @@
       border: 1px solid var(--line-strong);
       border-radius: 50%;
       color: var(--text);
-      background: rgba(255,255,255,.045);
+      background: rgba(255,255,255,.42);
       cursor: pointer;
     }
 
@@ -368,6 +367,10 @@
         font-size: 10px;
       }
     }
+    .chapter.romanticist .chapter-title,
+    .chapter.romance .chapter-title,
+    .chapter.ngc .chapter-title,
+    .chapter.needed .chapter-title { background: transparent; }
   </style>
 </head>
 
