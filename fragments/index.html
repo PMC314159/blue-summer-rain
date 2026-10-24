@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#25252a" />
+  <meta name="theme-color" content="#dce6d7" />
   <link rel="icon" href="../favicon.ico" type="image/x-icon" />
   <title>Fragments | Blue Summer Rain</title>
 
@@ -17,15 +17,15 @@
     }
 
     :root {
-      --bg: #25252a;
-      --panel: rgba(24,24,28,.56);
-      --text: #f1f1f2;
-      --muted: #aaaab0;
-      --muted-2: #85858c;
-      --line: rgba(255,255,255,.12);
-      --line-strong: rgba(255,255,255,.18);
-      --accent: #d8e3d4;
-      --shadow: rgba(0,0,0,.28);
+      --bg: #dce6d7;
+      --panel: rgba(247,251,243,.46);
+      --text: #3d4c43;
+      --muted: #65756b;
+      --muted-2: #73816e;
+      --line: rgba(91,112,84,.17);
+      --line-strong: rgba(91,112,84,.27);
+      --accent: #536e54;
+      --shadow: rgba(58,77,52,.12);
     }
 
     * { box-sizing: border-box; }
@@ -39,9 +39,8 @@
       font-weight: 300;
       letter-spacing: -0.025em;
       background:
-        radial-gradient(circle at 12% 8%, rgba(159,180,225,.08), transparent 25%),
-        radial-gradient(circle at 88% 82%, rgba(191,223,194,.06), transparent 28%),
-        var(--bg);
+        radial-gradient(ellipse at 6% 0%, rgba(237,243,231,.50), transparent 58%),
+        linear-gradient(145deg, #d8e7d1 0%, #dfe7db 52%, #dce3dc 100%);
     }
 
     body.modal-open { overflow: hidden; }
@@ -121,7 +120,7 @@
       border-radius: 28px;
       color: var(--text);
       background: var(--panel);
-      box-shadow: 0 16px 42px rgba(0,0,0,.14);
+      box-shadow: 0 16px 42px rgba(58,77,52,.08);
       cursor: pointer;
       text-align: left;
       transition: transform .24s ease, border-color .24s ease, background .24s ease;
@@ -130,14 +129,14 @@
     .fragment-card:hover,
     .fragment-card:focus-visible {
       transform: translateY(-2px);
-      border-color: rgba(216,227,212,.28);
-      background: rgba(31,31,36,.70);
+      border-color: rgba(91,112,84,.30);
+      background: rgba(249,253,245,.72);
       outline: none;
     }
 
     .fragment-title {
       margin: 0;
-      color: #f3f3f4;
+      color: #3d4c43;
       font-size: 22px;
       font-weight: 300;
       letter-spacing: .01em;
@@ -156,7 +155,7 @@
       z-index: 1000;
       display: none;
       padding: 68px 28px 32px;
-      background: rgba(4,4,6,.94);
+      background: rgba(213,225,208,.92);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       overflow-y: auto;
@@ -171,7 +170,7 @@
       right: 26px;
       border: 0;
       padding: 8px 10px;
-      color: #d4d1e5;
+      color: #4f6550;
       background: transparent;
       font-size: 13px;
       letter-spacing: .15em;
@@ -186,8 +185,8 @@
       padding: 44px 48px 62px;
       border: 1px solid var(--line);
       border-radius: 30px;
-      background: rgba(17,17,20,.92);
-      box-shadow: 0 30px 90px rgba(0,0,0,.38);
+      background: rgba(240,246,235,.94);
+      box-shadow: 0 30px 90px rgba(58,77,52,.15);
     }
 
     .modal-title {
@@ -221,7 +220,7 @@
       margin: 0 auto;
       object-fit: contain;
       border-radius: 20px;
-      background: #101013;
+      background: #dce5d6;
     }
 
     .fragment-credit {
@@ -236,9 +235,9 @@
     .fragment-bgm {
       margin: 0 0 28px;
       padding: 13px 16px;
-      border-left: 2px solid rgba(216,227,212,.48);
-      color: #c8c8cf;
-      background: rgba(255,255,255,.025);
+      border-left: 2px solid rgba(91,112,84,.42);
+      color: #5b6d5e;
+      background: rgba(255,255,255,.30);
       font-size: 13px;
       line-height: 1.7;
       word-break: keep-all;
@@ -252,7 +251,7 @@
 
     .modal-text {
       margin: 0;
-      color: #d7d7dc;
+      color: #435347;
       font-size: clamp(15px, 1.8vw, 18px);
       line-height: 2.05;
       white-space: pre-wrap;
@@ -264,7 +263,7 @@
     }
 
     .error {
-      color: #d6a5a5;
+      color: #92534f;
     }
 
     /* shared music player */
@@ -284,8 +283,8 @@
       border: 1px solid var(--line-strong);
       border-radius: 999px;
       color: var(--text);
-      background: rgba(34,34,39,.90);
-      box-shadow: 0 14px 38px rgba(0,0,0,.26);
+      background: rgba(239,244,233,.90);
+      box-shadow: 0 14px 38px rgba(58,77,52,.12);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
     }
@@ -308,7 +307,7 @@
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      color: #d9d9dc;
+      color: #4f6153;
       font-size: 12px;
     }
 
@@ -323,7 +322,7 @@
       border: 1px solid var(--line-strong);
       border-radius: 50%;
       color: var(--text);
-      background: rgba(255,255,255,.045);
+      background: rgba(255,255,255,.42);
       cursor: pointer;
     }
 
